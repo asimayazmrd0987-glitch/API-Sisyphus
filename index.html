@@ -25,7 +25,7 @@
             --warning: #D29922;
             --error: #F85149;
             --info: #58A6FF;
-            
+
             --method-get: #3FB950;
             --method-post: #F0883E;
             --method-put: #00D9FF;
@@ -33,19 +33,19 @@
             --method-delete: #F85149;
             --method-head: #8B949E;
             --method-options: #58A6FF;
-            
+
             --status-2xx: #3FB950;
             --status-3xx: #00D9FF;
             --status-4xx: #D29922;
             --status-5xx: #F85149;
-            
+
             --font-body: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            
+
             --radius-sm: 4px;
             --radius-md: 6px;
             --radius-lg: 8px;
-            
+
             --spacing-xs: 4px;
             --spacing-sm: 8px;
             --spacing-md: 12px;
@@ -791,7 +791,6 @@
             width: 40%;
         }
 
-        /* Raw Response */
         .raw-response {
             font-family: var(--font-mono);
             font-size: 12px;
@@ -801,7 +800,6 @@
             color: var(--text-primary);
         }
 
-        /* Empty State */
         .empty-state {
             display: flex;
             flex-direction: column;
@@ -1004,7 +1002,6 @@
         </aside>
 
         <main class="right-content">
-
             <div class="request-bar">
                 <select class="method-select" id="methodSelect">
                     <option value="GET">GET</option>
@@ -1016,14 +1013,13 @@
                     <option value="OPTIONS">OPTIONS</option>
                 </select>
                 <input type="text" class="url-input" id="urlInput" placeholder="https://api.example.com/endpoint">
-                <button class="btn-send" id="sendBtn">
+                <button class="btn-send" id="sendBtn" title="Send request (Ctrl+Enter)">
                     <div class="spinner"></div>
                     <span class="btn-text"><i class="fas fa-paper-plane"></i> SEND</span>
                 </button>
             </div>
 
             <div class="panes-container">
-
                 <div class="pane pane-left">
                     <div class="pane-header">
                         <span class="pane-title">Request</span>
@@ -1040,7 +1036,6 @@
                         </div>
                     </div>
                     <div class="pane-content" id="reqPaneContent">
-
                         <div class="req-tab-content" data-req-tab="params">
                             <div id="paramsRows"></div>
                             <button class="btn-add" id="addParamBtn">
@@ -1065,7 +1060,6 @@
                             <div id="authFields"></div>
                         </div>
 
-                        <!-- Body Tab -->
                         <div class="req-tab-content" data-req-tab="body" style="display: none;">
                             <select class="body-type-select" id="bodyTypeSelect">
                                 <option value="none">None</option>
@@ -1078,7 +1072,6 @@
                     </div>
                 </div>
 
-                <!-- Response Pane -->
                 <div class="pane">
                     <div class="response-meta" id="responseMeta" style="display: none;">
                         <span class="status-badge" id="statusBadge">200 OK</span>
@@ -1129,14 +1122,12 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // State
         let environment = {};
         let history = [];
         let currentResponse = null;
         let currentRawResponse = '';
         let isLoading = false;
 
-        // DOM Elements
         const methodSelect = document.getElementById('methodSelect');
         const urlInput = document.getElementById('urlInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -1161,11 +1152,9 @@
         const errorMessage = document.getElementById('errorMessage');
         const toastContainer = document.getElementById('toastContainer');
 
-        // Initialize
         function init() {
             loadEnvironment();
             loadHistory();
-            loadMethodColor();
             setupEventListeners();
             renderEnvRows();
             renderHistory();
@@ -1173,9 +1162,9 @@
             renderHeadersRows();
             renderAuthFields();
             renderBodyContent();
+            loadMethodColor();
         }
 
-        // localStorage
         function loadEnvironment() {
             try {
                 const stored = localStorage.getItem('dojo_env');
@@ -1206,7 +1195,6 @@
             localStorage.setItem('dojo_api_hist', JSON.stringify(history));
         }
 
-        // Environment Variables
         function renderEnvRows() {
             envRows.innerHTML = '';
             const keys = Object.keys(environment);
@@ -1227,7 +1215,7 @@
                 <input type="text" placeholder="value" class="env-value" value="${escapeHtml(value)}">
                 <button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>
             `;
-            
+
             const keyInput = row.querySelector('.env-key');
             const valInput = row.querySelector('.env-value');
             const removeBtn = row.querySelector('.btn-icon');
@@ -1245,7 +1233,7 @@
 
             keyInput.addEventListener('input', updateEnv);
             valInput.addEventListener('input', updateEnv);
-            
+
             removeBtn.addEventListener('click', () => {
                 if (keyInput.value.trim()) {
                     delete environment[keyInput.value.trim()];
@@ -1257,11 +1245,7 @@
                 }
             });
 
-            if (append) {
-                envRows.appendChild(row);
-            } else {
-                envRows.appendChild(row);
-            }
+            envRows.appendChild(row);
         }
 
         function resolveEnvVars(str) {
@@ -1272,7 +1256,6 @@
             });
         }
 
-        // History
         function renderHistory() {
             historyList.innerHTML = '';
             if (history.length === 0) {
@@ -1280,15 +1263,17 @@
                 clearHistoryBtn.style.display = 'none';
                 return;
             }
-            
+
             clearHistoryBtn.style.display = 'block';
             const reversed = [...history].reverse();
-            
+
             reversed.forEach((entry, index) => {
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 const actualIndex = history.length - 1 - index;
-                
+
+                const elapsedDisplay = entry.elapsed !== null ? entry.elapsed + 'ms' : '';
+
                 item.innerHTML = `
                     <div class="history-item-header">
                         <span class="method-badge ${entry.method.toLowerCase()}">${entry.method}</span>
@@ -1296,15 +1281,15 @@
                     <div class="history-url">${escapeHtml(truncateUrl(entry.url))}</div>
                     <div class="history-meta">
                         <span>${formatStatus(entry.status)}</span>
-                        <span>${entry.elapsed}ms</span>
+                        <span>${elapsedDisplay}</span>
                         <span>${timeAgo(entry.timestamp)}</span>
                     </div>
                 `;
-                
+
                 item.addEventListener('click', () => {
                     loadHistoryEntry(actualIndex);
                 });
-                
+
                 historyList.appendChild(item);
             });
         }
@@ -1326,12 +1311,12 @@
                 elapsed,
                 timestamp: Date.now()
             };
-            
+
             history.push(entry);
             if (history.length > 60) {
                 history.shift();
             }
-            
+
             saveHistory();
             renderHistory();
         }
@@ -1366,7 +1351,6 @@
             return `${days}d ago`;
         }
 
-        // Request Building
         function getParams() {
             const params = [];
             const rows = paramsRows.querySelectorAll('.kv-row');
@@ -1398,7 +1382,7 @@
         function buildAuthHeaders() {
             const type = authTypeSelect.value;
             const headers = {};
-            
+
             if (type === 'bearer') {
                 const token = document.getElementById('bearerToken')?.value || '';
                 if (token) {
@@ -1415,21 +1399,19 @@
                 const keyName = document.getElementById('apiKeyName')?.value || '';
                 const keyValue = document.getElementById('apiKeyValue')?.value || '';
                 const location = document.getElementById('apiKeyLocation')?.value || 'header';
-                
-                if (keyName && keyValue) {
-                    if (location === 'header') {
-                        headers[keyName] = resolveEnvVars(keyValue);
-                    }
+
+                if (keyName && keyValue && location === 'header') {
+                    headers[keyName] = resolveEnvVars(keyValue);
                 }
             }
-            
+
             return { headers, type };
         }
 
         function buildBody() {
             const type = bodyTypeSelect.value;
             if (type === 'none') return null;
-            
+
             if (type === 'json') {
                 const textarea = document.getElementById('jsonBody');
                 if (!textarea) return null;
@@ -1457,70 +1439,58 @@
                 if (!value.trim()) return null;
                 return { body: value, contentType: 'text/plain' };
             }
-            
+
             return null;
         }
 
         function buildUrl() {
-            let url = resolveEnvVars(urlInput.value.trim());
-            if (!url) return '';
-            
-            const params = getParams();
-            if (params.length > 0) {
-                const urlObj = new URL(url);
-                params.forEach(p => {
+            let raw = resolveEnvVars(urlInput.value.trim());
+            if (!raw) return '';
+
+            if (!/^https?:\/\//i.test(raw)) raw = 'https://' + raw;
+
+            try {
+                const urlObj = new URL(raw);
+                getParams().forEach(p => {
                     urlObj.searchParams.append(p.key, resolveEnvVars(p.value));
                 });
-                url = urlObj.toString();
-            }
-            
-            // Handle API Key in query param
-            const authType = authTypeSelect.value;
-            if (authType === 'apikey') {
-                const location = document.getElementById('apiKeyLocation')?.value || 'header';
-                if (location === 'query') {
-                    const keyName = document.getElementById('apiKeyName')?.value || '';
-                    const keyValue = document.getElementById('apiKeyValue')?.value || '';
-                    if (keyName && keyValue) {
-                        const urlObj = new URL(url);
-                        urlObj.searchParams.append(keyName, resolveEnvVars(keyValue));
-                        url = urlObj.toString();
+                if (authTypeSelect.value === 'apikey') {
+                    const loc = document.getElementById('apiKeyLocation')?.value;
+                    if (loc === 'query') {
+                        const k = document.getElementById('apiKeyName')?.value || '';
+                        const v = document.getElementById('apiKeyValue')?.value || '';
+                        if (k) urlObj.searchParams.append(k, resolveEnvVars(v));
                     }
                 }
+                return urlObj.toString();
+            } catch {
+                showToast('Invalid URL', 'error');
+                return '';
             }
-            
-            return url;
         }
 
-        // Sending
         async function sendRequest() {
             const url = buildUrl();
-            if (!url) {
-                showToast('Please enter a URL', 'error');
-                return;
-            }
-            
+            if (!url) return;
+
             const method = methodSelect.value;
             const isGetOrHead = method === 'GET' || method === 'HEAD';
-            
+
             setLoading(true);
             const startTime = performance.now();
-            
+
             try {
                 const options = {
                     method,
                     headers: {}
                 };
-                
-                // Add custom headers
+
                 const customHeaders = getHeaders();
                 Object.assign(options.headers, customHeaders);
-                
-                // Add auth headers
+
                 const auth = buildAuthHeaders();
                 Object.assign(options.headers, auth.headers);
-                
-                // Add body
+
                 if (!isGetOrHead) {
                     const bodyData = buildBody();
                     if (bodyData) {
@@ -1530,20 +1500,20 @@
                         }
                     }
                 }
-                
+
                 const response = await fetch(url, options);
                 const elapsed = Math.round(performance.now() - startTime);
-                
+
                 const blob = await response.blob();
                 const size = blob.size;
                 const text = await blob.text();
-                
+
                 currentResponse = response;
                 currentRawResponse = text;
-                
-                renderResponse(response, text, elapsed, size);
+
+                renderResponse(response, text, elapsed, size, method);
                 addToHistory(method, urlInput.value.trim(), response.status, elapsed);
-                
+
             } catch (err) {
                 const elapsed = Math.round(performance.now() - startTime);
                 renderError(err.message || 'Network Error');
@@ -1563,23 +1533,35 @@
             }
         }
 
-        // Response Rendering
-        function renderResponse(response, text, elapsed, size) {
+        function resetResponseTabs() {
+            document.querySelectorAll('[data-res-tab]').forEach(t => {
+                t.classList.toggle('active', t.dataset.resTab === 'body');
+            });
+            document.querySelectorAll('.res-tab-content').forEach(c => {
+                c.style.display = c.dataset.resTab === 'body' ? 'block' : 'none';
+            });
+        }
+
+        function renderResponse(response, text, elapsed, size, method) {
+            resetResponseTabs();
+
             emptyState.style.display = 'none';
             errorState.style.display = 'none';
             responseBody.style.display = 'block';
             responseMeta.style.display = 'flex';
-            
-            // Status badge
+
             const statusClass = getStatusClass(response.status);
             statusBadge.className = `status-badge ${statusClass}`;
             statusBadge.textContent = `${response.status} ${response.statusText}`;
-            
-            // Meta
+
             timeMeta.textContent = `${elapsed}ms`;
-            sizeMeta.textContent = formatSize(size);
-            
-            // Body
+
+            if (method === 'HEAD') {
+                sizeMeta.textContent = '—';
+            } else {
+                sizeMeta.textContent = formatSize(size);
+            }
+
             const contentType = response.headers.get('content-type') || '';
             if (contentType.includes('application/json')) {
                 try {
@@ -1591,8 +1573,7 @@
             } else {
                 responseBody.innerHTML = `<div class="raw-response">${escapeHtml(text)}</div>`;
             }
-            
-            // Headers
+
             const headersHtml = [];
             headersHtml.push('<table class="headers-table"><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody>');
             response.headers.forEach((value, key) => {
@@ -1600,22 +1581,23 @@
             });
             headersHtml.push('</tbody></table>');
             responseHeaders.innerHTML = headersHtml.join('');
-            
-            // Raw
+
             responseRaw.textContent = text;
         }
 
         function renderError(message) {
+            resetResponseTabs();
+
             emptyState.style.display = 'none';
             responseBody.style.display = 'none';
             responseMeta.style.display = 'flex';
             errorState.style.display = 'block';
-            
+
             statusBadge.className = 'status-badge status-err';
             statusBadge.textContent = 'Error';
             timeMeta.textContent = '-';
             sizeMeta.textContent = '-';
-            
+
             errorMessage.textContent = message;
             responseRaw.textContent = message;
             responseHeaders.innerHTML = '<div class="empty-state">No headers available</div>';
@@ -1639,7 +1621,7 @@
         function syntaxHighlightJson(obj, indent = 0) {
             const spacing = '  '.repeat(indent);
             const nextSpacing = '  '.repeat(indent + 1);
-            
+
             if (obj === null) {
                 return '<span class="json-null">null</span>';
             }
@@ -1654,11 +1636,13 @@
             }
             if (Array.isArray(obj)) {
                 if (obj.length === 0) return '<span class="json-bracket">[]</span>';
-                let html = '<span class="json-bracket">[</span>\n';
+                let html = '<span class="json-bracket">[</span>
+';
                 obj.forEach((item, i) => {
                     html += `${nextSpacing}${syntaxHighlightJson(item, indent + 1)}`;
                     if (i < obj.length - 1) html += '<span class="json-bracket">,</span>';
-                    html += '\n';
+                    html += '
+';
                 });
                 html += `${spacing}<span class="json-bracket">]</span>`;
                 return html;
@@ -1666,11 +1650,13 @@
             if (typeof obj === 'object') {
                 const keys = Object.keys(obj);
                 if (keys.length === 0) return '<span class="json-bracket">{}</span>';
-                let html = '<span class="json-bracket">{</span>\n';
+                let html = '<span class="json-bracket">{</span>
+';
                 keys.forEach((key, i) => {
                     html += `${nextSpacing}<span class="json-key">"${escapeHtml(key)}"</span><span class="json-bracket">: </span>${syntaxHighlightJson(obj[key], indent + 1)}`;
                     if (i < keys.length - 1) html += '<span class="json-bracket">,</span>';
-                    html += '\n';
+                    html += '
+';
                 });
                 html += `${spacing}<span class="json-bracket">}</span>`;
                 return html;
@@ -1678,7 +1664,6 @@
             return String(obj);
         }
 
-        // UI Helpers
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -1688,22 +1673,20 @@
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
+
             const icon = type === 'success' ? 'fa-check-circle' : 
                         type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-            
+
             toast.innerHTML = `<i class="fas ${icon}"></i> ${escapeHtml(message)}`;
             toastContainer.appendChild(toast);
-            
+
             setTimeout(() => {
                 toast.classList.add('hiding');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
-        // Tabs
         function setupTabs() {
-            // Request tabs
             document.querySelectorAll('[data-req-tab]').forEach(tab => {
                 tab.addEventListener('click', () => {
                     const target = tab.dataset.reqTab;
@@ -1714,8 +1697,7 @@
                     });
                 });
             });
-            
-            // Response tabs
+
             document.querySelectorAll('[data-res-tab]').forEach(tab => {
                 tab.addEventListener('click', () => {
                     const target = tab.dataset.resTab;
@@ -1733,7 +1715,7 @@
                 this.classList.toggle('collapsed');
                 document.getElementById('envContent').classList.toggle('collapsed');
             });
-            
+
             document.getElementById('histHeader').addEventListener('click', function() {
                 this.classList.toggle('collapsed');
                 document.getElementById('histContent').classList.toggle('collapsed');
@@ -1748,7 +1730,7 @@
                 <input type="text" placeholder="Value">
                 <button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>
             `;
-            
+
             const removeBtn = row.querySelector('.btn-icon');
             removeBtn.addEventListener('click', () => {
                 row.remove();
@@ -1756,7 +1738,7 @@
                     createKvRow(container, addBtnId);
                 }
             });
-            
+
             container.appendChild(row);
         }
 
@@ -1773,9 +1755,9 @@
         function renderAuthFields() {
             const type = authTypeSelect.value;
             authFields.innerHTML = '';
-            
+
             if (type === 'none') return;
-            
+
             if (type === 'bearer') {
                 authFields.innerHTML = `
                     <div class="field-group">
@@ -1818,7 +1800,7 @@
         function renderBodyContent() {
             const type = bodyTypeSelect.value;
             bodyContent.innerHTML = '';
-            
+
             if (type === 'none') {
                 bodyContent.innerHTML = '<div class="empty-state" style="min-height: 200px;"><i class="fas fa-ban"></i><h3>No Body</h3></div>';
             } else if (type === 'json') {
@@ -1856,38 +1838,43 @@
 
         function loadMethodColor() {
             const method = methodSelect.value.toLowerCase();
-            methodSelect.style.color = `var(--method-${method})`;
+            const colors = {
+                get: '#3FB950', post: '#F0883E', put: '#00D9FF',
+                patch: '#A371F7', delete: '#F85149',
+                head: '#8B949E', options: '#58A6FF'
+            };
+            methodSelect.style.color = colors[method] || '#E6EDF3';
         }
 
         function setupEventListeners() {
             setupTabs();
             setupCollapsible();
-            
+
             sendBtn.addEventListener('click', sendRequest);
-            
+
             methodSelect.addEventListener('change', loadMethodColor);
-            
+
             document.getElementById('addEnvBtn').addEventListener('click', () => addEnvRow());
-            
+
             document.getElementById('addParamBtn').addEventListener('click', () => {
                 createKvRow(paramsRows, 'addParamBtn');
             });
-            
+
             document.getElementById('addHeaderBtn').addEventListener('click', () => {
                 createKvRow(headersRows, 'addHeaderBtn');
             });
-            
+
             authTypeSelect.addEventListener('change', renderAuthFields);
-            
+
             bodyTypeSelect.addEventListener('change', renderBodyContent);
-            
+
             document.getElementById('tryExampleBtn').addEventListener('click', () => {
                 urlInput.value = 'https://jsonplaceholder.typicode.com/posts/1';
                 methodSelect.value = 'GET';
                 loadMethodColor();
                 sendRequest();
             });
-            
+
             document.getElementById('saveRequestBtn').addEventListener('click', () => {
                 const method = methodSelect.value;
                 const url = urlInput.value.trim();
@@ -1895,12 +1882,12 @@
                     showToast('Enter a URL to save', 'error');
                     return;
                 }
-                addToHistory(method, url, '-', 0);
+                addToHistory(method, url, 'Saved', null);
                 showToast('Request saved to history', 'success');
             });
-            
+
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-            
+
             document.getElementById('copyResponseBtn').addEventListener('click', () => {
                 if (!currentRawResponse) {
                     showToast('No response to copy', 'error');
@@ -1912,15 +1899,16 @@
                     showToast('Failed to copy', 'error');
                 });
             });
-            
+
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                    sendRequest();
+                    if (e.target.tagName !== 'TEXTAREA') {
+                        sendRequest();
+                    }
                 }
             });
         }
 
-        // Start
         init();
     </script>
 </body>
