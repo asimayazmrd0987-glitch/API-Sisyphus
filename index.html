@@ -127,7 +127,7 @@
         .right-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .request-bar { padding: var(--spacing-lg); background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; gap: var(--spacing-md); align-items: center; }
         
-        /* Method Select Styling */
+
         .method-select { 
             width: 110px; background-color: var(--bg-elevated); border: 1px solid var(--border-color); 
             border-radius: var(--radius-sm); padding: var(--spacing-md); font-family: var(--font-mono); 
@@ -427,7 +427,7 @@
                 const item = document.createElement('div'); item.className = 'history-item';
                 const actualIndex = history.length - 1 - index;
                 
-                // FIX: Handle null elapsed time for saved requests
+
                 const elapsedText = entry.elapsed !== null ? entry.elapsed + 'ms' : '';
                 
                 item.innerHTML = `<div class="history-item-header"><span class="method-badge ${entry.method.toLowerCase()}">${entry.method}</span></div><div class="history-url">${escapeHtml(truncateUrl(entry.url))}</div><div class="history-meta"><span>${formatStatus(entry.status)}</span><span>${elapsedText}</span><span>${timeAgo(entry.timestamp)}</span></div>`;
@@ -597,7 +597,7 @@
 
         function setLoading(loading) { isLoading = loading; sendBtn.disabled = loading; if (loading) sendBtn.classList.add('loading'); else sendBtn.classList.remove('loading'); }
 
-        // FIX: Reset Response Tabs Helper
+
         function resetResponseTabs() {
             document.querySelectorAll('[data-res-tab]').forEach(t =>
                 t.classList.toggle('active', t.dataset.resTab === 'body')
@@ -608,7 +608,7 @@
         }
 
         function renderResponse(response, text, elapsed, size) {
-            resetResponseTabs(); // FIX: Reset to body tab on new response
+            resetResponseTabs(); 
             emptyState.style.display = 'none'; errorState.style.display = 'none'; responseBody.style.display = 'block'; responseMeta.style.display = 'flex';
             const statusClass = getStatusClass(response.status); statusBadge.className = `status-badge ${statusClass}`; statusBadge.textContent = `${response.status} ${response.statusText}`;
             timeMeta.textContent = `${elapsed}ms`; sizeMeta.textContent = formatSize(size);
@@ -621,7 +621,7 @@
         }
 
         function renderError(message) {
-            resetResponseTabs(); // FIX: Reset to body tab on error
+            resetResponseTabs(); 
             emptyState.style.display = 'none'; responseBody.style.display = 'none'; responseMeta.style.display = 'flex'; errorState.style.display = 'block';
             statusBadge.className = 'status-badge status-err'; statusBadge.textContent = 'Error'; timeMeta.textContent = '-'; sizeMeta.textContent = '-';
             errorMessage.textContent = message; responseRaw.textContent = message; responseHeaders.innerHTML = '<div class="empty-state">No headers available</div>'; responseBody.innerHTML = '';
@@ -700,7 +700,7 @@
         function loadMethodColor() { 
             const method = methodSelect.value.toLowerCase();
             methodSelect.style.color = `var(--method-${method})`;
-            // Subtly tint the background based on method for better visual feedback
+
             const colors = { get: 'rgba(63, 185, 80, 0.1)', post: 'rgba(240, 136, 62, 0.1)', put: 'rgba(0, 217, 255, 0.1)', patch: 'rgba(163, 113, 247, 0.1)', delete: 'rgba(248, 81, 73, 0.1)', head: 'rgba(139, 148, 158, 0.1)', options: 'rgba(88, 166, 255, 0.1)' };
             methodSelect.style.backgroundColor = colors[method] || 'var(--bg-elevated)';
         }
@@ -716,7 +716,7 @@
             bodyTypeSelect.addEventListener('change', renderBodyContent);
             document.getElementById('tryExampleBtn').addEventListener('click', () => { urlInput.value = 'https://jsonplaceholder.typicode.com/posts/1'; methodSelect.value = 'GET'; loadMethodColor(); sendRequest(); });
             
-            // FIX: Saved entries show 'Saved' and null elapsed time
+
             document.getElementById('saveRequestBtn').addEventListener('click', () => { 
                 if (!urlInput.value.trim()) { showToast('Enter a URL to save', 'error'); return; } 
                 addToHistory(methodSelect.value, urlInput.value.trim(), 'Saved', null); 
@@ -726,7 +726,7 @@
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
             document.getElementById('copyResponseBtn').addEventListener('click', () => { if (!currentRawResponse) { showToast('No response to copy', 'error'); return; } navigator.clipboard.writeText(currentRawResponse).then(() => showToast('Response copied', 'success')).catch(() => showToast('Failed to copy', 'error')); });
             
-            // FIX: Prevent Ctrl+Enter from firing when typing in a textarea
+
             document.addEventListener('keydown', (e) => { 
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                     if (e.target.tagName !== 'TEXTAREA') sendRequest();
