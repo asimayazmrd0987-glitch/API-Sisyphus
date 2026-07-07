@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Tester</title>
+    <title>API Sisyphus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -53,11 +53,7 @@
             --spacing-xl: 24px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: var(--font-body);
@@ -71,17 +67,12 @@
 
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
                 linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -89,11 +80,7 @@
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-        .top-nav {
-            position: fixed; top: 0; left: 0; right: 0; height: 48px;
-            background-color: var(--bg-card); border-bottom: 1px solid var(--border-color);
-            display: flex; align-items: center; padding: 0 var(--spacing-xl); z-index: 100;
-        }
+        .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 48px; background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; padding: 0 var(--spacing-xl); z-index: 100; }
         .nav-brand { font-family: var(--font-mono); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm); }
         .nav-brand i { color: var(--accent); }
 
@@ -139,9 +126,16 @@
 
         .right-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .request-bar { padding: var(--spacing-lg); background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; gap: var(--spacing-md); align-items: center; }
-        .method-select { width: 110px; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; font-weight: 500; cursor: pointer; outline: none; }
+        
+        /* Method Select Styling */
+        .method-select { 
+            width: 110px; background-color: var(--bg-elevated); border: 1px solid var(--border-color); 
+            border-radius: var(--radius-sm); padding: var(--spacing-md); font-family: var(--font-mono); 
+            font-size: 13px; font-weight: 600; cursor: pointer; outline: none; transition: all 0.2s;
+        }
         .method-select:focus { border-color: var(--accent); }
-        .method-select option { background-color: var(--bg-elevated); }
+        .method-select option { background-color: var(--bg-elevated); color: var(--text-primary); }
+
         .url-input { flex: 1; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; outline: none; transition: border-color 0.15s; }
         .url-input:focus { border-color: var(--accent); }
         .url-input::placeholder { color: var(--text-muted); }
@@ -232,7 +226,7 @@
 </head>
 <body>
     <nav class="top-nav">
-        <div class="nav-brand"><i class="fas fa-terminal"></i><span>API Tester</span></div>
+        <div class="nav-brand"><i class="fas fa-terminal"></i><span>API Sisyphus</span></div>
     </nav>
 
     <div class="main-container">
@@ -432,7 +426,11 @@
             reversed.forEach((entry, index) => {
                 const item = document.createElement('div'); item.className = 'history-item';
                 const actualIndex = history.length - 1 - index;
-                item.innerHTML = `<div class="history-item-header"><span class="method-badge ${entry.method.toLowerCase()}">${entry.method}</span></div><div class="history-url">${escapeHtml(truncateUrl(entry.url))}</div><div class="history-meta"><span>${formatStatus(entry.status)}</span><span>${entry.elapsed}ms</span><span>${timeAgo(entry.timestamp)}</span></div>`;
+                
+                // FIX: Handle null elapsed time for saved requests
+                const elapsedText = entry.elapsed !== null ? entry.elapsed + 'ms' : '';
+                
+                item.innerHTML = `<div class="history-item-header"><span class="method-badge ${entry.method.toLowerCase()}">${entry.method}</span></div><div class="history-url">${escapeHtml(truncateUrl(entry.url))}</div><div class="history-meta"><span>${formatStatus(entry.status)}</span><span>${elapsedText}</span><span>${timeAgo(entry.timestamp)}</span></div>`;
                 item.addEventListener('click', () => loadHistoryEntry(actualIndex));
                 historyList.appendChild(item);
             });
@@ -446,21 +444,18 @@
             urlInput.value = entry.url;
             loadMethodColor();
 
-            // Restore Params
             paramsRows.innerHTML = '';
             const stateParams = entry.state?.params || [];
             let validParams = stateParams.filter(p => p.key);
             validParams.forEach(p => createKvRow(paramsRows, p.key, p.value));
             createKvRow(paramsRows); 
 
-            // Restore Headers
             headersRows.innerHTML = '';
             const stateHeaders = entry.state?.headers || [];
             let validHeaders = stateHeaders.filter(h => h.key);
             validHeaders.forEach(h => createKvRow(headersRows, h.key, h.value));
             createKvRow(headersRows);
 
-            // Restore Auth
             if (entry.state?.auth) {
                 authTypeSelect.value = entry.state.auth.type;
                 renderAuthFields();
@@ -469,7 +464,6 @@
                 else if (entry.state.auth.type === 'apikey') { document.getElementById('apiKeyName').value = entry.state.auth.keyName || ''; document.getElementById('apiKeyValue').value = entry.state.auth.keyValue || ''; document.getElementById('apiKeyLocation').value = entry.state.auth.location || 'header'; }
             } else { authTypeSelect.value = 'none'; renderAuthFields(); }
 
-            // Restore Body
             if (entry.state?.body) {
                 bodyTypeSelect.value = entry.state.body.type;
                 renderBodyContent();
@@ -554,12 +548,7 @@
         function buildUrl() {
             let url = resolveEnvVars(urlInput.value.trim());
             if (!url) return '';
-            
-            // FIX: Auto-prepend http:// if the user forgot it
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'http://' + url;
-            }
-            
+            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'http://' + url;
             const params = getParams();
             if (params.length > 0) {
                 try {
@@ -568,7 +557,6 @@
                     url = urlObj.toString();
                 } catch (e) { showToast('Invalid URL format', 'error'); return ''; }
             }
-            
             const authType = authTypeSelect.value;
             if (authType === 'apikey') {
                 const location = document.getElementById('apiKeyLocation')?.value || 'header';
@@ -609,7 +597,18 @@
 
         function setLoading(loading) { isLoading = loading; sendBtn.disabled = loading; if (loading) sendBtn.classList.add('loading'); else sendBtn.classList.remove('loading'); }
 
+        // FIX: Reset Response Tabs Helper
+        function resetResponseTabs() {
+            document.querySelectorAll('[data-res-tab]').forEach(t =>
+                t.classList.toggle('active', t.dataset.resTab === 'body')
+            );
+            document.querySelectorAll('.res-tab-content').forEach(c =>
+                c.style.display = c.dataset.resTab === 'body' ? 'block' : 'none'
+            );
+        }
+
         function renderResponse(response, text, elapsed, size) {
+            resetResponseTabs(); // FIX: Reset to body tab on new response
             emptyState.style.display = 'none'; errorState.style.display = 'none'; responseBody.style.display = 'block'; responseMeta.style.display = 'flex';
             const statusClass = getStatusClass(response.status); statusBadge.className = `status-badge ${statusClass}`; statusBadge.textContent = `${response.status} ${response.statusText}`;
             timeMeta.textContent = `${elapsed}ms`; sizeMeta.textContent = formatSize(size);
@@ -622,6 +621,7 @@
         }
 
         function renderError(message) {
+            resetResponseTabs(); // FIX: Reset to body tab on error
             emptyState.style.display = 'none'; responseBody.style.display = 'none'; responseMeta.style.display = 'flex'; errorState.style.display = 'block';
             statusBadge.className = 'status-badge status-err'; statusBadge.textContent = 'Error'; timeMeta.textContent = '-'; sizeMeta.textContent = '-';
             errorMessage.textContent = message; responseRaw.textContent = message; responseHeaders.innerHTML = '<div class="empty-state">No headers available</div>'; responseBody.innerHTML = '';
@@ -696,7 +696,14 @@
         }
 
         function formatJsonBody() { const textarea = document.getElementById('jsonBody'); if (!textarea) return; try { textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2); showToast('JSON formatted', 'success'); } catch { showToast('Invalid JSON', 'error'); } }
-        function loadMethodColor() { methodSelect.style.color = `var(--method-${methodSelect.value.toLowerCase()})`; }
+        
+        function loadMethodColor() { 
+            const method = methodSelect.value.toLowerCase();
+            methodSelect.style.color = `var(--method-${method})`;
+            // Subtly tint the background based on method for better visual feedback
+            const colors = { get: 'rgba(63, 185, 80, 0.1)', post: 'rgba(240, 136, 62, 0.1)', put: 'rgba(0, 217, 255, 0.1)', patch: 'rgba(163, 113, 247, 0.1)', delete: 'rgba(248, 81, 73, 0.1)', head: 'rgba(139, 148, 158, 0.1)', options: 'rgba(88, 166, 255, 0.1)' };
+            methodSelect.style.backgroundColor = colors[method] || 'var(--bg-elevated)';
+        }
 
         function setupEventListeners() {
             setupTabs(); setupCollapsible();
@@ -708,10 +715,23 @@
             authTypeSelect.addEventListener('change', renderAuthFields);
             bodyTypeSelect.addEventListener('change', renderBodyContent);
             document.getElementById('tryExampleBtn').addEventListener('click', () => { urlInput.value = 'https://jsonplaceholder.typicode.com/posts/1'; methodSelect.value = 'GET'; loadMethodColor(); sendRequest(); });
-            document.getElementById('saveRequestBtn').addEventListener('click', () => { if (!urlInput.value.trim()) { showToast('Enter a URL to save', 'error'); return; } addToHistory(methodSelect.value, urlInput.value.trim(), '-', 0); showToast('Request saved to history', 'success'); });
+            
+            // FIX: Saved entries show 'Saved' and null elapsed time
+            document.getElementById('saveRequestBtn').addEventListener('click', () => { 
+                if (!urlInput.value.trim()) { showToast('Enter a URL to save', 'error'); return; } 
+                addToHistory(methodSelect.value, urlInput.value.trim(), 'Saved', null); 
+                showToast('Request saved to history', 'success'); 
+            });
+            
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
             document.getElementById('copyResponseBtn').addEventListener('click', () => { if (!currentRawResponse) { showToast('No response to copy', 'error'); return; } navigator.clipboard.writeText(currentRawResponse).then(() => showToast('Response copied', 'success')).catch(() => showToast('Failed to copy', 'error')); });
-            document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') sendRequest(); });
+            
+            // FIX: Prevent Ctrl+Enter from firing when typing in a textarea
+            document.addEventListener('keydown', (e) => { 
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    if (e.target.tagName !== 'TEXTAREA') sendRequest();
+                } 
+            });
         }
 
         init();
