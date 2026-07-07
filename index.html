@@ -25,6 +25,7 @@
             --warning: #D29922;
             --error: #F85149;
             --info: #58A6FF;
+            
             --method-get: #3FB950;
             --method-post: #F0883E;
             --method-put: #00D9FF;
@@ -32,22 +33,32 @@
             --method-delete: #F85149;
             --method-head: #8B949E;
             --method-options: #58A6FF;
+            
             --status-2xx: #3FB950;
             --status-3xx: #00D9FF;
             --status-4xx: #D29922;
             --status-5xx: #F85149;
+            
             --font-body: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
+            
             --radius-sm: 4px;
             --radius-md: 6px;
             --radius-lg: 8px;
+            
             --spacing-xs: 4px;
             --spacing-sm: 8px;
             --spacing-md: 12px;
             --spacing-lg: 16px;
             --spacing-xl: 24px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: var(--font-body);
             background-color: var(--bg-primary);
@@ -57,177 +68,62 @@
             display: flex;
             flex-direction: column;
         }
+
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
                 linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
         }
+
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
         .top-nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 48px;
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            padding: 0 var(--spacing-xl);
-            z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; height: 48px;
+            background-color: var(--bg-card); border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; padding: 0 var(--spacing-xl); z-index: 100;
         }
-        .nav-brand {
-            font-family: var(--font-mono);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
+        .nav-brand { font-family: var(--font-mono); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm); }
         .nav-brand i { color: var(--accent); }
-        .main-container {
-            display: flex;
-            height: calc(100vh - 48px);
-            margin-top: 48px;
-            position: relative;
-            z-index: 1;
-        }
-        .left-sidebar {
-            width: 320px;
-            min-width: 320px;
-            background-color: var(--bg-card);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+
+        .main-container { display: flex; height: calc(100vh - 48px); margin-top: 48px; position: relative; z-index: 1; }
+
+        .left-sidebar { width: 320px; min-width: 320px; background-color: var(--bg-card); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; overflow: hidden; }
         .sidebar-section { border-bottom: 1px solid var(--border-color); }
-        .section-header {
-            padding: var(--spacing-md) var(--spacing-lg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.15s;
-        }
+        .section-header { padding: var(--spacing-md) var(--spacing-lg); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background-color 0.15s; }
         .section-header:hover { background-color: var(--bg-hover); }
-        .section-title {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-        .section-toggle {
-            color: var(--text-muted);
-            font-size: 12px;
-            transition: transform 0.2s;
-        }
+        .section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); display: flex; align-items: center; gap: var(--spacing-sm); }
+        .section-toggle { color: var(--text-muted); font-size: 12px; transition: transform 0.2s; }
         .section-header.collapsed .section-toggle { transform: rotate(-90deg); }
-        .section-content {
-            padding: 0 var(--spacing-lg) var(--spacing-lg);
-            overflow-y: auto;
-        }
+        .section-content { padding: 0 var(--spacing-lg) var(--spacing-lg); overflow-y: auto; }
         .section-content.collapsed { display: none; }
-        .env-row {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-sm);
-            align-items: center;
-        }
-        .env-row input {
-            flex: 1;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-sm) var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            outline: none;
-            transition: border-color 0.15s;
-        }
-        .env-row input:focus { border-color: var(--accent); }
-        .env-row input::placeholder { color: var(--text-muted); }
-        .env-row .btn-icon {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
-        .env-row .btn-icon:hover {
-            color: var(--error);
-            background-color: rgba(248, 81, 73, 0.1);
-        }
-        .btn-add {
-            width: 100%;
-            padding: var(--spacing-sm);
-            background-color: var(--bg-elevated);
-            border: 1px dashed var(--border-color);
-            color: var(--text-secondary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-            margin-top: var(--spacing-sm);
-        }
-        .btn-add:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background-color: var(--accent-dim);
-        }
-        .history-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 var(--spacing-lg);
-        }
-        .history-item {
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            margin-bottom: var(--spacing-sm);
-            transition: background-color 0.15s;
-            border: 1px solid transparent;
-        }
-        .history-item:hover {
-            background-color: var(--bg-elevated);
-            border-color: var(--border-color);
-        }
-        .history-item-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-xs);
-        }
-        .method-badge {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: var(--radius-sm);
-            text-transform: uppercase;
-        }
+
+        .env-row, .kv-row { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm); align-items: center; }
+        .env-row input, .kv-row input { flex: 1; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-sm) var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; outline: none; transition: border-color 0.15s; }
+        .env-row input:focus, .kv-row input:focus { border-color: var(--accent); }
+        .env-row input::placeholder, .kv-row input::placeholder { color: var(--text-muted); }
+        .env-row .btn-icon, .kv-row .btn-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; }
+        .env-row .btn-icon:hover, .kv-row .btn-icon:hover { color: var(--error); background-color: rgba(248, 81, 73, 0.1); }
+
+        .btn-add { width: 100%; padding: var(--spacing-sm); background-color: var(--bg-elevated); border: 1px dashed var(--border-color); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; margin-top: var(--spacing-sm); }
+        .btn-add:hover { border-color: var(--accent); color: var(--accent); background-color: var(--accent-dim); }
+
+        .history-list { flex: 1; overflow-y: auto; padding: 0 var(--spacing-lg); }
+        .history-item { padding: var(--spacing-md); border-radius: var(--radius-md); cursor: pointer; margin-bottom: var(--spacing-sm); transition: background-color 0.15s; border: 1px solid transparent; }
+        .history-item:hover { background-color: var(--bg-elevated); border-color: var(--border-color); }
+        .history-item-header { display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs); }
+        .method-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: var(--radius-sm); text-transform: uppercase; }
         .method-badge.get { background-color: rgba(63, 185, 80, 0.15); color: var(--method-get); }
         .method-badge.post { background-color: rgba(240, 136, 62, 0.15); color: var(--method-post); }
         .method-badge.put { background-color: rgba(0, 217, 255, 0.15); color: var(--method-put); }
@@ -235,567 +131,131 @@
         .method-badge.delete { background-color: rgba(248, 81, 73, 0.15); color: var(--method-delete); }
         .method-badge.head { background-color: rgba(139, 148, 158, 0.15); color: var(--method-head); }
         .method-badge.options { background-color: rgba(88, 166, 255, 0.15); color: var(--method-options); }
-        .history-url {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .history-meta {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: var(--spacing-xs);
-            display: flex;
-            gap: var(--spacing-md);
-        }
-        .history-empty {
-            text-align: center;
-            padding: var(--spacing-xl);
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-        .btn-clear {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-family: var(--font-body);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-            margin: var(--spacing-sm) var(--spacing-lg);
-        }
-        .btn-clear:hover {
-            border-color: var(--error);
-            color: var(--error);
-        }
-        .right-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .request-bar {
-            padding: var(--spacing-lg);
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            gap: var(--spacing-md);
-            align-items: center;
-        }
-        .method-select {
-            width: 110px;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-        }
+        .history-url { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: var(--spacing-xs); display: flex; gap: var(--spacing-md); }
+        .history-empty { text-align: center; padding: var(--spacing-xl); color: var(--text-muted); font-size: 13px; }
+        .btn-clear { padding: var(--spacing-sm) var(--spacing-md); background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); font-family: var(--font-body); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; margin: var(--spacing-sm) var(--spacing-lg); }
+        .btn-clear:hover { border-color: var(--error); color: var(--error); }
+
+        .right-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .request-bar { padding: var(--spacing-lg); background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; gap: var(--spacing-md); align-items: center; }
+        .method-select { width: 110px; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; font-weight: 500; cursor: pointer; outline: none; }
         .method-select:focus { border-color: var(--accent); }
         .method-select option { background-color: var(--bg-elevated); }
-        .url-input {
-            flex: 1;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.15s;
-        }
+        .url-input { flex: 1; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; outline: none; transition: border-color 0.15s; }
         .url-input:focus { border-color: var(--accent); }
         .url-input::placeholder { color: var(--text-muted); }
-        .btn-send {
-            padding: var(--spacing-md) var(--spacing-xl);
-            background-color: var(--accent);
-            border: none;
-            border-radius: var(--radius-sm);
-            color: var(--bg-primary);
-            font-family: var(--font-mono);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            transition: background-color 0.15s;
-            min-width: 100px;
-            justify-content: center;
-        }
+
+        .btn-send { padding: var(--spacing-md) var(--spacing-xl); background-color: var(--accent); border: none; border-radius: var(--radius-sm); color: var(--bg-primary); font-family: var(--font-mono); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: var(--spacing-sm); transition: background-color 0.15s; min-width: 100px; justify-content: center; }
         .btn-send:hover { background-color: var(--accent-hover); }
-        .btn-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .btn-send .spinner {
-            display: none;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(8, 12, 16, 0.3);
-            border-top-color: var(--bg-primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-send .spinner { display: none; width: 14px; height: 14px; border: 2px solid rgba(8, 12, 16, 0.3); border-top-color: var(--bg-primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         .btn-send.loading .spinner { display: inline-block; }
         .btn-send.loading .btn-text { display: none; }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .panes-container {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-        .pane {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .panes-container { flex: 1; display: flex; overflow: hidden; }
+        .pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .pane-left { border-right: 1px solid var(--border-color); }
-        .pane-header {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .pane-title {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-        }
-        .tabs {
-            display: flex;
-            gap: var(--spacing-xs);
-        }
-        .tab {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
-        .tab:hover {
-            color: var(--text-secondary);
-            background-color: var(--bg-hover);
-        }
-        .tab.active {
-            color: var(--accent);
-            background-color: var(--accent-dim);
-        }
-        .pane-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: var(--spacing-lg);
-        }
-        .kv-row {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-            align-items: center;
-        }
-        .kv-row input {
-            flex: 1;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-sm) var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            outline: none;
-        }
-        .kv-row input:focus { border-color: var(--accent); }
-        .kv-row input::placeholder { color: var(--text-muted); }
-        .kv-row .btn-icon {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
-        .kv-row .btn-icon:hover {
-            color: var(--error);
-            background-color: rgba(248, 81, 73, 0.1);
-        }
-        .auth-type-select {
-            width: 100%;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            margin-bottom: var(--spacing-lg);
-            outline: none;
-        }
-        .auth-type-select:focus { border-color: var(--accent); }
-        .auth-fields {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        .field-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xs);
-        }
-        .field-label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .field-input {
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            outline: none;
-            width: 100%;
-        }
+        .pane-header { padding: var(--spacing-md) var(--spacing-lg); background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+        .pane-title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
+        .tabs { display: flex; gap: var(--spacing-xs); }
+        .tab { padding: var(--spacing-sm) var(--spacing-md); background: transparent; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; }
+        .tab:hover { color: var(--text-secondary); background-color: var(--bg-hover); }
+        .tab.active { color: var(--accent); background-color: var(--accent-dim); }
+        .pane-content { flex: 1; overflow-y: auto; padding: var(--spacing-lg); }
+
+        .auth-type-select, .body-type-select, .location-select { width: 100%; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; margin-bottom: var(--spacing-lg); outline: none; }
+        .auth-type-select:focus, .body-type-select:focus, .location-select:focus { border-color: var(--accent); }
+        .auth-fields { display: flex; flex-direction: column; gap: var(--spacing-md); }
+        .field-group { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+        .field-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .field-input { background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; outline: none; width: 100%; }
         .field-input:focus { border-color: var(--accent); }
         .field-input::placeholder { color: var(--text-muted); }
-        .body-type-select {
-            width: 100%;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            margin-bottom: var(--spacing-lg);
-            outline: none;
-        }
-        .body-type-select:focus { border-color: var(--accent); }
-        .body-textarea {
-            width: 100%;
-            min-height: 300px;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            line-height: 1.6;
-            outline: none;
-            resize: vertical;
-        }
+
+        .body-textarea { width: 100%; min-height: 300px; background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--spacing-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; line-height: 1.6; outline: none; resize: vertical; }
         .body-textarea:focus { border-color: var(--accent); }
         .body-textarea::placeholder { color: var(--text-muted); }
-        .btn-format {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-            margin-bottom: var(--spacing-md);
-        }
-        .btn-format:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .response-meta {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-        }
-        .status-badge {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: var(--radius-sm);
-        }
+        .btn-format { padding: var(--spacing-sm) var(--spacing-md); background-color: var(--bg-elevated); border: 1px solid var(--border-color); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; margin-bottom: var(--spacing-md); }
+        .btn-format:hover { border-color: var(--accent); color: var(--accent); }
+
+        .response-meta { padding: var(--spacing-md) var(--spacing-lg); background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: var(--spacing-lg); }
+        .status-badge { font-family: var(--font-mono); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-sm); }
         .status-2xx { background-color: rgba(63, 185, 80, 0.15); color: var(--status-2xx); }
         .status-3xx { background-color: rgba(0, 217, 255, 0.15); color: var(--status-3xx); }
         .status-4xx { background-color: rgba(210, 153, 34, 0.15); color: var(--status-4xx); }
         .status-5xx { background-color: rgba(248, 81, 73, 0.15); color: var(--status-5xx); }
         .status-err { background-color: rgba(248, 81, 73, 0.15); color: var(--error); }
-        .meta-item {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        .meta-item span {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        .response-actions {
-            margin-left: auto;
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-        .btn-action {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-        .btn-action:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .json-viewer {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
+        .meta-item { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); }
+        .meta-item span { color: var(--text-primary); font-weight: 500; }
+        .response-actions { margin-left: auto; display: flex; gap: var(--spacing-sm); }
+        .btn-action { padding: var(--spacing-sm) var(--spacing-md); background-color: var(--bg-elevated); border: 1px solid var(--border-color); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; display: flex; align-items: center; gap: var(--spacing-sm); }
+        .btn-action:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-save { padding: var(--spacing-sm) var(--spacing-md); background-color: var(--bg-elevated); border: 1px solid var(--border-color); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; }
+        .btn-save:hover { border-color: var(--accent); color: var(--accent); }
+
+        .json-viewer { font-family: var(--font-mono); font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
         .json-key { color: #7EE787; }
         .json-string { color: #A5D6FF; }
         .json-number { color: #79C0FF; }
-        .json-boolean { color: #FF7B72; }
-        .json-null { color: #FF7B72; }
+        .json-boolean, .json-null { color: #FF7B72; }
         .json-bracket { color: #E6EDF3; }
-        .headers-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .headers-table th,
-        .headers-table td {
-            text-align: left;
-            padding: var(--spacing-md);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .headers-table th {
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-        }
+
+        .headers-table { width: 100%; border-collapse: collapse; }
+        .headers-table th, .headers-table td { text-align: left; padding: var(--spacing-md); font-family: var(--font-mono); font-size: 12px; border-bottom: 1px solid var(--border-color); }
+        .headers-table th { color: var(--text-secondary); font-weight: 500; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
         .headers-table td { color: var(--text-primary); }
-        .headers-table td:first-child {
-            color: var(--accent);
-            width: 40%;
-        }
-        .raw-response {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            word-break: break-word;
-            color: var(--text-primary);
-        }
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--text-muted);
-            text-align: center;
-            padding: var(--spacing-xl);
-        }
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: var(--spacing-lg);
-            color: var(--border-color);
-        }
-        .empty-state h3 {
-            font-family: var(--font-mono);
-            font-size: 16px;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-secondary);
-        }
-        .empty-state p {
-            font-size: 13px;
-            margin-bottom: var(--spacing-xl);
-            max-width: 300px;
-        }
-        .btn-example {
-            padding: var(--spacing-md) var(--spacing-xl);
-            background-color: var(--accent-dim);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-family: var(--font-mono);
-            font-size: 13px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
-        .btn-example:hover {
-            background-color: var(--accent);
-            color: var(--bg-primary);
-        }
-        .error-state {
-            padding: var(--spacing-xl);
-            color: var(--error);
-            font-family: var(--font-mono);
-            font-size: 13px;
-        }
+        .headers-table td:first-child { color: var(--accent); width: 40%; }
+        .raw-response { font-family: var(--font-mono); font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; color: var(--text-primary); }
+
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); text-align: center; padding: var(--spacing-xl); }
+        .empty-state i { font-size: 48px; margin-bottom: var(--spacing-lg); color: var(--border-color); }
+        .empty-state h3 { font-family: var(--font-mono); font-size: 16px; margin-bottom: var(--spacing-sm); color: var(--text-secondary); }
+        .empty-state p { font-size: 13px; margin-bottom: var(--spacing-xl); max-width: 300px; }
+        .btn-example { padding: var(--spacing-md) var(--spacing-xl); background-color: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent); font-family: var(--font-mono); font-size: 13px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; }
+        .btn-example:hover { background-color: var(--accent); color: var(--bg-primary); }
+        .error-state { padding: var(--spacing-xl); color: var(--error); font-family: var(--font-mono); font-size: 13px; }
         .error-state i { margin-right: var(--spacing-sm); }
-        .toast-container {
-            position: fixed;
-            bottom: var(--spacing-xl);
-            right: var(--spacing-xl);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        .toast {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-left: 3px solid var(--accent);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease-out;
-            min-width: 240px;
-        }
+
+        .toast-container { position: fixed; bottom: var(--spacing-xl); right: var(--spacing-xl); z-index: 1000; display: flex; flex-direction: column; gap: var(--spacing-md); }
+        .toast { padding: var(--spacing-md) var(--spacing-lg); background-color: var(--bg-elevated); border: 1px solid var(--border-color); border-left: 3px solid var(--accent); border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; display: flex; align-items: center; gap: var(--spacing-md); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease-out; min-width: 240px; }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--error); }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
         .toast.hiding { animation: fadeOut 0.3s ease-out forwards; }
-        .btn-save {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
-        .btn-save:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B949E' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 32px;
-        }
-        button:focus-visible,
-        select:focus-visible,
-        input:focus-visible,
-        textarea:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-        .location-select {
-            width: 100%;
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--spacing-md);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            outline: none;
-        }
-        .location-select:focus { border-color: var(--accent); }
+
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B949E' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+        button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     </style>
-<base target="_blank">
 </head>
 <body>
     <nav class="top-nav">
-        <div class="nav-brand">
-            <i class="fas fa-terminal"></i>
-            <span>API Tester</span>
-        </div>
+        <div class="nav-brand"><i class="fas fa-terminal"></i><span>API Tester</span></div>
     </nav>
 
     <div class="main-container">
         <aside class="left-sidebar">
             <div class="sidebar-section">
                 <div class="section-header" id="envHeader">
-                    <div class="section-title">
-                        <i class="fas fa-sliders-h"></i>
-                        Environment
-                    </div>
+                    <div class="section-title"><i class="fas fa-sliders-h"></i> Environment</div>
                     <i class="fas fa-chevron-down section-toggle"></i>
                 </div>
                 <div class="section-content" id="envContent">
                     <div id="envRows"></div>
-                    <button class="btn-add" id="addEnvBtn">
-                        <i class="fas fa-plus"></i> Add Variable
-                    </button>
+                    <button class="btn-add" id="addEnvBtn"><i class="fas fa-plus"></i> Add Variable</button>
                 </div>
             </div>
 
             <div class="sidebar-section" style="flex: 1; display: flex; flex-direction: column; border-bottom: none;">
                 <div class="section-header" id="histHeader">
-                    <div class="section-title">
-                        <i class="fas fa-history"></i>
-                        History
-                    </div>
+                    <div class="section-title"><i class="fas fa-history"></i> History</div>
                     <i class="fas fa-chevron-down section-toggle"></i>
                 </div>
                 <div class="section-content" id="histContent" style="flex: 1; display: flex; flex-direction: column; padding: 0;">
                     <div class="history-list" id="historyList"></div>
-                    <button class="btn-clear" id="clearHistoryBtn" style="display: none;">
-                        <i class="fas fa-trash"></i> Clear All
-                    </button>
+                    <button class="btn-clear" id="clearHistoryBtn" style="display: none;"><i class="fas fa-trash"></i> Clear All</button>
                 </div>
             </div>
         </aside>
@@ -812,7 +272,7 @@
                     <option value="OPTIONS">OPTIONS</option>
                 </select>
                 <input type="text" class="url-input" id="urlInput" placeholder="https://api.example.com/endpoint">
-                <button class="btn-send" id="sendBtn" title="Send request (Ctrl+Enter)">
+                <button class="btn-send" id="sendBtn">
                     <div class="spinner"></div>
                     <span class="btn-text"><i class="fas fa-paper-plane"></i> SEND</span>
                 </button>
@@ -823,9 +283,7 @@
                     <div class="pane-header">
                         <span class="pane-title">Request</span>
                         <div style="display: flex; gap: var(--spacing-sm);">
-                            <button class="btn-save" id="saveRequestBtn">
-                                <i class="fas fa-save"></i> Save
-                            </button>
+                            <button class="btn-save" id="saveRequestBtn"><i class="fas fa-save"></i> Save</button>
                             <div class="tabs">
                                 <button class="tab active" data-req-tab="params">Params</button>
                                 <button class="tab" data-req-tab="headers">Headers</button>
@@ -837,15 +295,11 @@
                     <div class="pane-content" id="reqPaneContent">
                         <div class="req-tab-content" data-req-tab="params">
                             <div id="paramsRows"></div>
-                            <button class="btn-add" id="addParamBtn">
-                                <i class="fas fa-plus"></i> Add Param
-                            </button>
+                            <button class="btn-add" id="addParamBtn"><i class="fas fa-plus"></i> Add Param</button>
                         </div>
                         <div class="req-tab-content" data-req-tab="headers" style="display: none;">
                             <div id="headersRows"></div>
-                            <button class="btn-add" id="addHeaderBtn">
-                                <i class="fas fa-plus"></i> Add Header
-                            </button>
+                            <button class="btn-add" id="addHeaderBtn"><i class="fas fa-plus"></i> Add Header</button>
                         </div>
                         <div class="req-tab-content" data-req-tab="auth" style="display: none;">
                             <select class="auth-type-select" id="authTypeSelect">
@@ -874,9 +328,7 @@
                         <span class="meta-item">Time: <span id="timeMeta">0ms</span></span>
                         <span class="meta-item">Size: <span id="sizeMeta">0 B</span></span>
                         <div class="response-actions">
-                            <button class="btn-action" id="copyResponseBtn">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
+                            <button class="btn-action" id="copyResponseBtn"><i class="fas fa-copy"></i> Copy</button>
                         </div>
                     </div>
                     <div class="pane-header" style="border-top: 1px solid var(--border-color);">
@@ -893,22 +345,13 @@
                                 <i class="fas fa-paper-plane"></i>
                                 <h3>Ready to Send</h3>
                                 <p>Enter a URL and click SEND to see the response here.</p>
-                                <button class="btn-example" id="tryExampleBtn">
-                                    <i class="fas fa-magic"></i> Try Example
-                                </button>
+                                <button class="btn-example" id="tryExampleBtn"><i class="fas fa-magic"></i> Try Example</button>
                             </div>
                             <div id="responseBody" style="display: none;"></div>
-                            <div class="error-state" id="errorState" style="display: none;">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span id="errorMessage"></span>
-                            </div>
+                            <div class="error-state" id="errorState" style="display: none;"><i class="fas fa-exclamation-circle"></i><span id="errorMessage"></span></div>
                         </div>
-                        <div class="res-tab-content" data-res-tab="headers" style="display: none;">
-                            <div id="responseHeaders"></div>
-                        </div>
-                        <div class="res-tab-content" data-res-tab="raw" style="display: none;">
-                            <div class="raw-response" id="responseRaw"></div>
-                        </div>
+                        <div class="res-tab-content" data-res-tab="headers" style="display: none;"><div id="responseHeaders"></div></div>
+                        <div class="res-tab-content" data-res-tab="raw" style="display: none;"><div class="raw-response" id="responseRaw"></div></div>
                     </div>
                 </div>
             </div>
@@ -916,7 +359,6 @@
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-
 
     <script>
         let environment = {};
@@ -950,139 +392,48 @@
         const toastContainer = document.getElementById('toastContainer');
 
         function init() {
-            loadEnvironment();
-            loadHistory();
-            setupEventListeners();
-            renderEnvRows();
-            renderHistory();
-            renderParamsRows();
-            renderHeadersRows();
-            renderAuthFields();
-            renderBodyContent();
-            loadMethodColor();
+            loadEnvironment(); loadHistory(); loadMethodColor(); setupEventListeners();
+            renderEnvRows(); renderHistory(); renderParamsRows(); renderHeadersRows(); renderAuthFields(); renderBodyContent();
         }
 
-        function loadEnvironment() {
-            try {
-                const stored = localStorage.getItem('dojo_env');
-                if (stored) {
-                    environment = JSON.parse(stored);
-                }
-            } catch (e) {
-                environment = {};
-            }
-        }
-
-        function saveEnvironment() {
-            localStorage.setItem('dojo_env', JSON.stringify(environment));
-        }
-
-        function loadHistory() {
-            try {
-                const stored = localStorage.getItem('dojo_api_hist');
-                if (stored) {
-                    history = JSON.parse(stored);
-                }
-            } catch (e) {
-                history = [];
-            }
-        }
-
-        function saveHistory() {
-            localStorage.setItem('dojo_api_hist', JSON.stringify(history));
-        }
+        function loadEnvironment() { try { const stored = localStorage.getItem('dojo_env'); if (stored) environment = JSON.parse(stored); } catch (e) { environment = {}; } }
+        function saveEnvironment() { localStorage.setItem('dojo_env', JSON.stringify(environment)); }
+        function loadHistory() { try { const stored = localStorage.getItem('dojo_api_hist'); if (stored) history = JSON.parse(stored); } catch (e) { history = []; } }
+        function saveHistory() { localStorage.setItem('dojo_api_hist', JSON.stringify(history)); }
 
         function renderEnvRows() {
             envRows.innerHTML = '';
             const keys = Object.keys(environment);
-            if (keys.length === 0) {
-                addEnvRow('', '');
-            } else {
-                keys.forEach(key => {
-                    addEnvRow(key, environment[key], false);
-                });
-            }
+            if (keys.length === 0) addEnvRow('', '');
+            else keys.forEach(key => addEnvRow(key, environment[key], false));
         }
 
-        function addEnvRow(key, value) {
-            const row = document.createElement('div');
-            row.className = 'env-row';
-            row.innerHTML = '<input type="text" placeholder="KEY" class="env-key" value="' + escapeHtml(key) + '">' +
-                '<input type="text" placeholder="value" class="env-value" value="' + escapeHtml(value) + '">' +
-                '<button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>';
-
-            const keyInput = row.querySelector('.env-key');
-            const valInput = row.querySelector('.env-value');
-            const removeBtn = row.querySelector('.btn-icon');
-
+        function addEnvRow(key = '', value = '', append = true) {
+            const row = document.createElement('div'); row.className = 'env-row';
+            row.innerHTML = `<input type="text" placeholder="KEY" class="env-key" value="${escapeHtml(key)}"><input type="text" placeholder="value" class="env-value" value="${escapeHtml(value)}"><button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>`;
+            const keyInput = row.querySelector('.env-key'), valInput = row.querySelector('.env-value'), removeBtn = row.querySelector('.btn-icon');
             function updateEnv() {
-                const k = keyInput.value.trim();
-                const v = valInput.value;
-                if (k) {
-                    environment[k] = v;
-                } else if (key && !k) {
-                    delete environment[key];
-                }
+                const k = keyInput.value.trim(), v = valInput.value;
+                if (k) environment[k] = v; else if (key && !k) delete environment[key];
                 saveEnvironment();
             }
-
-            keyInput.addEventListener('input', updateEnv);
-            valInput.addEventListener('input', updateEnv);
-
-            removeBtn.addEventListener('click', function() {
-                if (keyInput.value.trim()) {
-                    delete environment[keyInput.value.trim()];
-                    saveEnvironment();
-                }
-                row.remove();
-                if (envRows.children.length === 0) {
-                    addEnvRow('', '');
-                }
-            });
-
+            keyInput.addEventListener('input', updateEnv); valInput.addEventListener('input', updateEnv);
+            removeBtn.addEventListener('click', () => { if (keyInput.value.trim()) delete environment[keyInput.value.trim()]; saveEnvironment(); row.remove(); if (envRows.children.length === 0) addEnvRow('', ''); });
             envRows.appendChild(row);
         }
 
-        function resolveEnvVars(str) {
-            if (!str) return str;
-            return str.replace(/\{\{([^}]+)\}\}/g, function(match, key) {
-                const trimmed = key.trim();
-                return environment.hasOwnProperty(trimmed) ? environment[trimmed] : match;
-            });
-        }
+        function resolveEnvVars(str) { if (!str) return str; return str.replace(/\{\{([^}]+)\}\}/g, (match, key) => { const trimmed = key.trim(); return environment.hasOwnProperty(trimmed) ? environment[trimmed] : match; }); }
 
         function renderHistory() {
             historyList.innerHTML = '';
-            if (history.length === 0) {
-                historyList.innerHTML = '<div class="history-empty">No requests yet</div>';
-                clearHistoryBtn.style.display = 'none';
-                return;
-            }
-
+            if (history.length === 0) { historyList.innerHTML = '<div class="history-empty">No requests yet</div>'; clearHistoryBtn.style.display = 'none'; return; }
             clearHistoryBtn.style.display = 'block';
-            const reversed = history.slice().reverse();
-
-            reversed.forEach(function(entry, index) {
-                const item = document.createElement('div');
-                item.className = 'history-item';
+            const reversed = [...history].reverse();
+            reversed.forEach((entry, index) => {
+                const item = document.createElement('div'); item.className = 'history-item';
                 const actualIndex = history.length - 1 - index;
-
-                const elapsedDisplay = entry.elapsed !== null ? entry.elapsed + 'ms' : '';
-
-                item.innerHTML = '<div class="history-item-header">' +
-                    '<span class="method-badge ' + entry.method.toLowerCase() + '">' + entry.method + '</span>' +
-                    '</div>' +
-                    '<div class="history-url">' + escapeHtml(truncateUrl(entry.url)) + '</div>' +
-                    '<div class="history-meta">' +
-                    '<span>' + formatStatus(entry.status) + '</span>' +
-                    '<span>' + elapsedDisplay + '</span>' +
-                    '<span>' + timeAgo(entry.timestamp) + '</span>' +
-                    '</div>';
-
-                item.addEventListener('click', function() {
-                    loadHistoryEntry(actualIndex);
-                });
-
+                item.innerHTML = `<div class="history-item-header"><span class="method-badge ${entry.method.toLowerCase()}">${entry.method}</span></div><div class="history-url">${escapeHtml(truncateUrl(entry.url))}</div><div class="history-meta"><span>${formatStatus(entry.status)}</span><span>${entry.elapsed}ms</span><span>${timeAgo(entry.timestamp)}</span></div>`;
+                item.addEventListener('click', () => loadHistoryEntry(actualIndex));
                 historyList.appendChild(item);
             });
         }
@@ -1090,605 +441,277 @@
         function loadHistoryEntry(index) {
             const entry = history[index];
             if (!entry) return;
+            
             methodSelect.value = entry.method;
             urlInput.value = entry.url;
             loadMethodColor();
+
+            // Restore Params
+            paramsRows.innerHTML = '';
+            const stateParams = entry.state?.params || [];
+            let validParams = stateParams.filter(p => p.key);
+            validParams.forEach(p => createKvRow(paramsRows, p.key, p.value));
+            createKvRow(paramsRows); 
+
+            // Restore Headers
+            headersRows.innerHTML = '';
+            const stateHeaders = entry.state?.headers || [];
+            let validHeaders = stateHeaders.filter(h => h.key);
+            validHeaders.forEach(h => createKvRow(headersRows, h.key, h.value));
+            createKvRow(headersRows);
+
+            // Restore Auth
+            if (entry.state?.auth) {
+                authTypeSelect.value = entry.state.auth.type;
+                renderAuthFields();
+                if (entry.state.auth.type === 'bearer') document.getElementById('bearerToken').value = entry.state.auth.token || '';
+                else if (entry.state.auth.type === 'basic') { document.getElementById('basicUsername').value = entry.state.auth.username || ''; document.getElementById('basicPassword').value = entry.state.auth.password || ''; }
+                else if (entry.state.auth.type === 'apikey') { document.getElementById('apiKeyName').value = entry.state.auth.keyName || ''; document.getElementById('apiKeyValue').value = entry.state.auth.keyValue || ''; document.getElementById('apiKeyLocation').value = entry.state.auth.location || 'header'; }
+            } else { authTypeSelect.value = 'none'; renderAuthFields(); }
+
+            // Restore Body
+            if (entry.state?.body) {
+                bodyTypeSelect.value = entry.state.body.type;
+                renderBodyContent();
+                if (entry.state.body.type === 'json' || entry.state.body.type === 'raw') {
+                    const textarea = bodyContent.querySelector('textarea');
+                    if (textarea) textarea.value = entry.state.body.content || '';
+                } else if (entry.state.body.type === 'form') {
+                    const formContainer = bodyContent.querySelector('#formRows');
+                    if (formContainer) {
+                        formContainer.innerHTML = '';
+                        const fields = entry.state.body.fields || [];
+                        let validFields = fields.filter(f => f.key);
+                        validFields.forEach(f => createKvRow(formContainer, f.key, f.value));
+                        createKvRow(formContainer); 
+                    }
+                }
+            } else { bodyTypeSelect.value = 'none'; renderBodyContent(); }
+
             showToast('Request loaded from history', 'success');
         }
 
+        function captureRequestState() {
+            const params = [];
+            paramsRows.querySelectorAll('.kv-row').forEach(row => { const inputs = row.querySelectorAll('input'); params.push({ key: inputs[0].value, value: inputs[1].value }); });
+            const headers = [];
+            headersRows.querySelectorAll('.kv-row').forEach(row => { const inputs = row.querySelectorAll('input'); headers.push({ key: inputs[0].value, value: inputs[1].value }); });
+            
+            const auth = { type: authTypeSelect.value };
+            if (auth.type === 'bearer') auth.token = document.getElementById('bearerToken')?.value || '';
+            else if (auth.type === 'basic') { auth.username = document.getElementById('basicUsername')?.value || ''; auth.password = document.getElementById('basicPassword')?.value || ''; }
+            else if (auth.type === 'apikey') { auth.keyName = document.getElementById('apiKeyName')?.value || ''; auth.keyValue = document.getElementById('apiKeyValue')?.value || ''; auth.location = document.getElementById('apiKeyLocation')?.value || 'header'; }
+
+            const body = { type: bodyTypeSelect.value };
+            if (body.type === 'json' || body.type === 'raw') body.content = bodyContent.querySelector('textarea')?.value || '';
+            else if (body.type === 'form') {
+                body.fields = [];
+                bodyContent.querySelectorAll('.kv-row').forEach(row => { const inputs = row.querySelectorAll('input'); body.fields.push({ key: inputs[0].value, value: inputs[1].value }); });
+            }
+            return { params, headers, auth, body };
+        }
+
         function addToHistory(method, url, status, elapsed) {
-            const entry = {
-                method: method,
-                url: url,
-                status: status,
-                elapsed: elapsed,
-                timestamp: Date.now()
-            };
-
+            const entry = { method, url, status, elapsed, timestamp: Date.now(), state: captureRequestState() };
             history.push(entry);
-            if (history.length > 60) {
-                history.shift();
-            }
-
-            saveHistory();
-            renderHistory();
+            if (history.length > 60) history.shift();
+            saveHistory(); renderHistory();
         }
 
-        function clearHistory() {
-            history = [];
-            saveHistory();
-            renderHistory();
-            showToast('History cleared', 'success');
-        }
-
-        function formatStatus(status) {
-            if (!status || status === 'ERR') return 'Error';
-            return status;
-        }
-
-        function truncateUrl(url) {
-            if (url.length > 45) {
-                return url.substring(0, 45) + '...';
-            }
-            return url;
-        }
-
+        function clearHistory() { history = []; saveHistory(); renderHistory(); showToast('History cleared', 'success'); }
+        function formatStatus(status) { if (!status || status === 'ERR') return 'Error'; return status; }
+        function truncateUrl(url) { if (url.length > 45) return url.substring(0, 45) + '...'; return url; }
         function timeAgo(timestamp) {
             const seconds = Math.floor((Date.now() - timestamp) / 1000);
-            if (seconds < 60) return seconds + 's ago';
+            if (seconds < 60) return `${seconds}s ago`;
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return minutes + 'm ago';
+            if (minutes < 60) return `${minutes}m ago`;
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) return hours + 'h ago';
+            if (hours < 24) return `${hours}h ago`;
             const days = Math.floor(hours / 24);
-            return days + 'd ago';
+            return `${days}d ago`;
         }
 
-        function getParams() {
-            const params = [];
-            const rows = paramsRows.querySelectorAll('.kv-row');
-            rows.forEach(function(row) {
-                const inputs = row.querySelectorAll('input');
-                const key = inputs[0].value.trim();
-                const value = inputs[1].value;
-                if (key) {
-                    params.push({ key: key, value: value });
-                }
-            });
-            return params;
-        }
-
-        function getHeaders() {
-            const headers = {};
-            const rows = headersRows.querySelectorAll('.kv-row');
-            rows.forEach(function(row) {
-                const inputs = row.querySelectorAll('input');
-                const key = inputs[0].value.trim();
-                const value = inputs[1].value;
-                if (key) {
-                    headers[key] = resolveEnvVars(value);
-                }
-            });
-            return headers;
-        }
+        function getParams() { const params = []; paramsRows.querySelectorAll('.kv-row').forEach(row => { const inputs = row.querySelectorAll('input'); const key = inputs[0].value.trim(); const value = inputs[1].value; if (key) params.push({ key, value }); }); return params; }
+        function getHeaders() { const headers = {}; headersRows.querySelectorAll('.kv-row').forEach(row => { const inputs = row.querySelectorAll('input'); const key = inputs[0].value.trim(); const value = inputs[1].value; if (key) headers[key] = resolveEnvVars(value); }); return headers; }
 
         function buildAuthHeaders() {
-            const type = authTypeSelect.value;
-            const headers = {};
-
-            if (type === 'bearer') {
-                const token = document.getElementById('bearerToken');
-                if (token && token.value) {
-                    headers['Authorization'] = 'Bearer ' + resolveEnvVars(token.value);
-                }
-            } else if (type === 'basic') {
-                const username = document.getElementById('basicUsername');
-                const password = document.getElementById('basicPassword');
-                if (username && username.value) {
-                    const encoded = btoa(resolveEnvVars(username.value) + ':' + resolveEnvVars(password.value || ''));
-                    headers['Authorization'] = 'Basic ' + encoded;
-                }
-            } else if (type === 'apikey') {
-                const keyName = document.getElementById('apiKeyName');
-                const keyValue = document.getElementById('apiKeyValue');
-                const location = document.getElementById('apiKeyLocation');
-
-                if (keyName && keyValue && location && location.value === 'header') {
-                    headers[keyName.value] = resolveEnvVars(keyValue.value);
-                }
-            }
-
-            return { headers: headers, type: type };
+            const type = authTypeSelect.value; const headers = {};
+            if (type === 'bearer') { const token = document.getElementById('bearerToken')?.value || ''; if (token) headers['Authorization'] = `Bearer ${resolveEnvVars(token)}`; }
+            else if (type === 'basic') { const username = document.getElementById('basicUsername')?.value || ''; const password = document.getElementById('basicPassword')?.value || ''; if (username) headers['Authorization'] = `Basic ${btoa(`${resolveEnvVars(username)}:${resolveEnvVars(password)}`)}`; }
+            else if (type === 'apikey') { const keyName = document.getElementById('apiKeyName')?.value || ''; const keyValue = document.getElementById('apiKeyValue')?.value || ''; const location = document.getElementById('apiKeyLocation')?.value || 'header'; if (keyName && keyValue && location === 'header') headers[keyName] = resolveEnvVars(keyValue); }
+            return { headers, type };
         }
 
         function buildBody() {
-            const type = bodyTypeSelect.value;
-            if (type === 'none') return null;
-
-            if (type === 'json') {
-                const textarea = document.getElementById('jsonBody');
-                if (!textarea) return null;
-                const value = textarea.value;
-                if (!value.trim()) return null;
-                return { body: value, contentType: 'application/json' };
-            } else if (type === 'form') {
-                const rows = bodyContent.querySelectorAll('.kv-row');
-                const formData = new FormData();
-                let hasData = false;
-                rows.forEach(function(row) {
-                    const inputs = row.querySelectorAll('input');
-                    const key = inputs[0].value.trim();
-                    const value = inputs[1].value;
-                    if (key) {
-                        formData.append(key, value);
-                        hasData = true;
-                    }
-                });
-                return hasData ? { body: formData, contentType: null } : null;
-            } else if (type === 'raw') {
-                const textarea = document.getElementById('rawBody');
-                if (!textarea) return null;
-                const value = textarea.value;
-                if (!value.trim()) return null;
-                return { body: value, contentType: 'text/plain' };
-            }
-
+            const type = bodyTypeSelect.value; if (type === 'none') return null;
+            if (type === 'json') { const textarea = document.getElementById('jsonBody'); if (!textarea) return null; const value = textarea.value; if (!value.trim()) return null; return { body: value, contentType: 'application/json' }; }
+            else if (type === 'form') { const rows = bodyContent.querySelectorAll('.kv-row'); const formData = new FormData(); let hasData = false; rows.forEach(row => { const inputs = row.querySelectorAll('input'); const key = inputs[0].value.trim(); const value = inputs[1].value; if (key) { formData.append(key, value); hasData = true; } }); return hasData ? { body: formData, contentType: null } : null; }
+            else if (type === 'raw') { const textarea = document.getElementById('rawBody'); if (!textarea) return null; const value = textarea.value; if (!value.trim()) return null; return { body: value, contentType: 'text/plain' }; }
             return null;
         }
 
         function buildUrl() {
-            let raw = resolveEnvVars(urlInput.value.trim());
-            if (!raw) return '';
-
-            if (!/^https?:\/\//i.test(raw)) raw = 'https://' + raw;
-
-            try {
-                const urlObj = new URL(raw);
-                getParams().forEach(function(p) {
-                    urlObj.searchParams.append(p.key, resolveEnvVars(p.value));
-                });
-                if (authTypeSelect.value === 'apikey') {
-                    const loc = document.getElementById('apiKeyLocation');
-                    if (loc && loc.value === 'query') {
-                        const k = document.getElementById('apiKeyName');
-                        const v = document.getElementById('apiKeyValue');
-                        if (k && v && k.value) urlObj.searchParams.append(k.value, resolveEnvVars(v.value));
+            let url = resolveEnvVars(urlInput.value.trim());
+            if (!url) return '';
+            
+            // FIX: Auto-prepend http:// if the user forgot it
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'http://' + url;
+            }
+            
+            const params = getParams();
+            if (params.length > 0) {
+                try {
+                    const urlObj = new URL(url);
+                    params.forEach(p => urlObj.searchParams.append(p.key, resolveEnvVars(p.value)));
+                    url = urlObj.toString();
+                } catch (e) { showToast('Invalid URL format', 'error'); return ''; }
+            }
+            
+            const authType = authTypeSelect.value;
+            if (authType === 'apikey') {
+                const location = document.getElementById('apiKeyLocation')?.value || 'header';
+                if (location === 'query') {
+                    const keyName = document.getElementById('apiKeyName')?.value || '';
+                    const keyValue = document.getElementById('apiKeyValue')?.value || '';
+                    if (keyName && keyValue) {
+                        try {
+                            const urlObj = new URL(url);
+                            urlObj.searchParams.append(keyName, resolveEnvVars(keyValue));
+                            url = urlObj.toString();
+                        } catch (e) { console.error(e); }
                     }
                 }
-                return urlObj.toString();
-            } catch (e) {
-                showToast('Invalid URL', 'error');
-                return '';
             }
+            return url;
         }
 
         async function sendRequest() {
-            const url = buildUrl();
-            if (!url) return;
-
-            const method = methodSelect.value;
-            const isGetOrHead = method === 'GET' || method === 'HEAD';
-
-            setLoading(true);
-            const startTime = performance.now();
-
+            const url = buildUrl(); if (!url) { showToast('Please enter a URL', 'error'); return; }
+            const method = methodSelect.value; const isGetOrHead = method === 'GET' || method === 'HEAD';
+            setLoading(true); const startTime = performance.now();
             try {
-                const options = {
-                    method: method,
-                    headers: {}
-                };
-
-                const customHeaders = getHeaders();
-                Object.assign(options.headers, customHeaders);
-
-                const auth = buildAuthHeaders();
-                Object.assign(options.headers, auth.headers);
-
-                if (!isGetOrHead) {
-                    const bodyData = buildBody();
-                    if (bodyData) {
-                        options.body = bodyData.body;
-                        if (bodyData.contentType) {
-                            options.headers['Content-Type'] = bodyData.contentType;
-                        }
-                    }
-                }
-
+                const options = { method, headers: {} };
+                Object.assign(options.headers, getHeaders());
+                Object.assign(options.headers, buildAuthHeaders().headers);
+                if (!isGetOrHead) { const bodyData = buildBody(); if (bodyData) { options.body = bodyData.body; if (bodyData.contentType) options.headers['Content-Type'] = bodyData.contentType; } }
                 const response = await fetch(url, options);
                 const elapsed = Math.round(performance.now() - startTime);
-
-                const blob = await response.blob();
-                const size = blob.size;
-                const text = await blob.text();
-
-                currentResponse = response;
-                currentRawResponse = text;
-
-                renderResponse(response, text, elapsed, size, method);
-                addToHistory(method, urlInput.value.trim(), response.status, elapsed);
-
+                const blob = await response.blob(); const size = blob.size; const text = await blob.text();
+                currentResponse = response; currentRawResponse = text;
+                renderResponse(response, text, elapsed, size); addToHistory(method, urlInput.value.trim(), response.status, elapsed);
             } catch (err) {
                 const elapsed = Math.round(performance.now() - startTime);
-                renderError(err.message || 'Network Error');
-                addToHistory(method, urlInput.value.trim(), 'ERR', elapsed);
-            } finally {
-                setLoading(false);
-            }
+                renderError(err.message || 'Network Error'); addToHistory(method, urlInput.value.trim(), 'ERR', elapsed);
+            } finally { setLoading(false); }
         }
 
-        function setLoading(loading) {
-            isLoading = loading;
-            sendBtn.disabled = loading;
-            if (loading) {
-                sendBtn.classList.add('loading');
-            } else {
-                sendBtn.classList.remove('loading');
-            }
-        }
+        function setLoading(loading) { isLoading = loading; sendBtn.disabled = loading; if (loading) sendBtn.classList.add('loading'); else sendBtn.classList.remove('loading'); }
 
-        function resetResponseTabs() {
-            document.querySelectorAll('[data-res-tab]').forEach(function(t) {
-                t.classList.toggle('active', t.dataset.resTab === 'body');
-            });
-            document.querySelectorAll('.res-tab-content').forEach(function(c) {
-                c.style.display = c.dataset.resTab === 'body' ? 'block' : 'none';
-            });
-        }
-
-        function renderResponse(response, text, elapsed, size, method) {
-            resetResponseTabs();
-
-            emptyState.style.display = 'none';
-            errorState.style.display = 'none';
-            responseBody.style.display = 'block';
-            responseMeta.style.display = 'flex';
-
-            const statusClass = getStatusClass(response.status);
-            statusBadge.className = 'status-badge ' + statusClass;
-            statusBadge.textContent = response.status + ' ' + response.statusText;
-
-            timeMeta.textContent = elapsed + 'ms';
-
-            if (method === 'HEAD') {
-                sizeMeta.textContent = String.fromCharCode(8212);
-            } else {
-                sizeMeta.textContent = formatSize(size);
-            }
-
+        function renderResponse(response, text, elapsed, size) {
+            emptyState.style.display = 'none'; errorState.style.display = 'none'; responseBody.style.display = 'block'; responseMeta.style.display = 'flex';
+            const statusClass = getStatusClass(response.status); statusBadge.className = `status-badge ${statusClass}`; statusBadge.textContent = `${response.status} ${response.statusText}`;
+            timeMeta.textContent = `${elapsed}ms`; sizeMeta.textContent = formatSize(size);
             const contentType = response.headers.get('content-type') || '';
-            if (contentType.includes('application/json')) {
-                try {
-                    const json = JSON.parse(text);
-                    responseBody.innerHTML = syntaxHighlightJson(json);
-                } catch (e) {
-                    responseBody.innerHTML = '<div class="raw-response">' + escapeHtml(text) + '</div>';
-                }
-            } else {
-                responseBody.innerHTML = '<div class="raw-response">' + escapeHtml(text) + '</div>';
-            }
-
-            const headersHtml = [];
-            headersHtml.push('<table class="headers-table"><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody>');
-            response.headers.forEach(function(value, key) {
-                headersHtml.push('<tr><td>' + escapeHtml(key) + '</td><td>' + escapeHtml(value) + '</td></tr>');
-            });
-            headersHtml.push('</tbody></table>');
-            responseHeaders.innerHTML = headersHtml.join('');
-
-            responseRaw.textContent = text;
+            if (contentType.includes('application/json')) { try { responseBody.innerHTML = syntaxHighlightJson(JSON.parse(text)); } catch { responseBody.innerHTML = `<div class="raw-response">${escapeHtml(text)}</div>`; } }
+            else { responseBody.innerHTML = `<div class="raw-response">${escapeHtml(text)}</div>`; }
+            const headersHtml = ['<table class="headers-table"><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody>'];
+            response.headers.forEach((value, key) => headersHtml.push(`<tr><td>${escapeHtml(key)}</td><td>${escapeHtml(value)}</td></tr>`));
+            headersHtml.push('</tbody></table>'); responseHeaders.innerHTML = headersHtml.join(''); responseRaw.textContent = text;
         }
 
         function renderError(message) {
-            resetResponseTabs();
-
-            emptyState.style.display = 'none';
-            responseBody.style.display = 'none';
-            responseMeta.style.display = 'flex';
-            errorState.style.display = 'block';
-
-            statusBadge.className = 'status-badge status-err';
-            statusBadge.textContent = 'Error';
-            timeMeta.textContent = '-';
-            sizeMeta.textContent = '-';
-
-            errorMessage.textContent = message;
-            responseRaw.textContent = message;
-            responseHeaders.innerHTML = '<div class="empty-state">No headers available</div>';
-            responseBody.innerHTML = '';
+            emptyState.style.display = 'none'; responseBody.style.display = 'none'; responseMeta.style.display = 'flex'; errorState.style.display = 'block';
+            statusBadge.className = 'status-badge status-err'; statusBadge.textContent = 'Error'; timeMeta.textContent = '-'; sizeMeta.textContent = '-';
+            errorMessage.textContent = message; responseRaw.textContent = message; responseHeaders.innerHTML = '<div class="empty-state">No headers available</div>'; responseBody.innerHTML = '';
         }
 
-        function getStatusClass(status) {
-            if (status >= 200 && status < 300) return 'status-2xx';
-            if (status >= 300 && status < 400) return 'status-3xx';
-            if (status >= 400 && status < 500) return 'status-4xx';
-            if (status >= 500) return 'status-5xx';
-            return 'status-err';
-        }
+        function getStatusClass(status) { if (status >= 200 && status < 300) return 'status-2xx'; if (status >= 300 && status < 400) return 'status-3xx'; if (status >= 400 && status < 500) return 'status-4xx'; if (status >= 500) return 'status-5xx'; return 'status-err'; }
+        function formatSize(bytes) { if (bytes === 0) return '0 B'; if (bytes < 1024) return `${bytes} B`; return `${(bytes / 1024).toFixed(2)} KB`; }
 
-        function formatSize(bytes) {
-            if (bytes === 0) return '0 B';
-            if (bytes < 1024) return bytes + ' B';
-            return (bytes / 1024).toFixed(2) + ' KB';
-        }
-
-        function syntaxHighlightJson(obj, indent) {
-            indent = indent || 0;
-            const spacing = '  '.repeat(indent);
-            const nextSpacing = '  '.repeat(indent + 1);
-
-            if (obj === null) {
-                return '<span class="json-null">null</span>';
-            }
-            if (typeof obj === 'boolean') {
-                return '<span class="json-boolean">' + obj + '</span>';
-            }
-            if (typeof obj === 'number') {
-                return '<span class="json-number">' + obj + '</span>';
-            }
-            if (typeof obj === 'string') {
-                return '<span class="json-string">"' + escapeHtml(obj) + '"</span>';
-            }
+        function syntaxHighlightJson(obj, indent = 0) {
+            const spacing = '  '.repeat(indent); const nextSpacing = '  '.repeat(indent + 1);
+            if (obj === null) return '<span class="json-null">null</span>';
+            if (typeof obj === 'boolean') return `<span class="json-boolean">${obj}</span>`;
+            if (typeof obj === 'number') return `<span class="json-number">${obj}</span>`;
+            if (typeof obj === 'string') return `<span class="json-string">"${escapeHtml(obj)}"</span>`;
             if (Array.isArray(obj)) {
                 if (obj.length === 0) return '<span class="json-bracket">[]</span>';
                 let html = '<span class="json-bracket">[</span>\n';
-                obj.forEach(function(item, i) {
-                    html += nextSpacing + syntaxHighlightJson(item, indent + 1);
-                    if (i < obj.length - 1) html += '<span class="json-bracket">,</span>';
-                    html += '\n';
-                });
-                html += spacing + '<span class="json-bracket">]</span>';
-                return html;
+                obj.forEach((item, i) => { html += `${nextSpacing}${syntaxHighlightJson(item, indent + 1)}`; if (i < obj.length - 1) html += '<span class="json-bracket">,</span>'; html += '\n'; });
+                html += `${spacing}<span class="json-bracket">]</span>`; return html;
             }
             if (typeof obj === 'object') {
-                const keys = Object.keys(obj);
-                if (keys.length === 0) return '<span class="json-bracket">{}</span>';
+                const keys = Object.keys(obj); if (keys.length === 0) return '<span class="json-bracket">{}</span>';
                 let html = '<span class="json-bracket">{</span>\n';
-                keys.forEach(function(key, i) {
-                    html += nextSpacing + '<span class="json-key">"' + escapeHtml(key) + '"</span><span class="json-bracket">: </span>' + syntaxHighlightJson(obj[key], indent + 1);
-                    if (i < keys.length - 1) html += '<span class="json-bracket">,</span>';
-                    html += '\n';
-                });
-                html += spacing + '<span class="json-bracket">}</span>';
-                return html;
+                keys.forEach((key, i) => { html += `${nextSpacing}<span class="json-key">"${escapeHtml(key)}"</span><span class="json-bracket">: </span>${syntaxHighlightJson(obj[key], indent + 1)}`; if (i < keys.length - 1) html += '<span class="json-bracket">,</span>'; html += '\n'; });
+                html += `${spacing}<span class="json-bracket">}</span>`; return html;
             }
             return String(obj);
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function showToast(message, type) {
-            type = type || 'info';
-            const toast = document.createElement('div');
-            toast.className = 'toast ' + type;
-
-            var icon = 'fa-info-circle';
-            if (type === 'success') icon = 'fa-check-circle';
-            else if (type === 'error') icon = 'fa-exclamation-circle';
-
-            toast.innerHTML = '<i class="fas ' + icon + '"></i> ' + escapeHtml(message);
-            toastContainer.appendChild(toast);
-
-            setTimeout(function() {
-                toast.classList.add('hiding');
-                setTimeout(function() { toast.remove(); }, 300);
-            }, 3000);
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div'); toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i> ${escapeHtml(message)}`; toastContainer.appendChild(toast);
+            setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
         function setupTabs() {
-            document.querySelectorAll('[data-req-tab]').forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    const target = tab.dataset.reqTab;
-                    document.querySelectorAll('[data-req-tab]').forEach(function(t) { t.classList.remove('active'); });
-                    tab.classList.add('active');
-                    document.querySelectorAll('.req-tab-content').forEach(function(c) {
-                        c.style.display = c.dataset.reqTab === target ? 'block' : 'none';
-                    });
-                });
-            });
-
-            document.querySelectorAll('[data-res-tab]').forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    const target = tab.dataset.resTab;
-                    document.querySelectorAll('[data-res-tab]').forEach(function(t) { t.classList.remove('active'); });
-                    tab.classList.add('active');
-                    document.querySelectorAll('.res-tab-content').forEach(function(c) {
-                        c.style.display = c.dataset.resTab === target ? 'block' : 'none';
-                    });
-                });
-            });
+            document.querySelectorAll('[data-req-tab]').forEach(tab => { tab.addEventListener('click', () => { const target = tab.dataset.reqTab; document.querySelectorAll('[data-req-tab]').forEach(t => t.classList.remove('active')); tab.classList.add('active'); document.querySelectorAll('.req-tab-content').forEach(c => c.style.display = c.dataset.reqTab === target ? 'block' : 'none'); }); });
+            document.querySelectorAll('[data-res-tab]').forEach(tab => { tab.addEventListener('click', () => { const target = tab.dataset.resTab; document.querySelectorAll('[data-res-tab]').forEach(t => t.classList.remove('active')); tab.classList.add('active'); document.querySelectorAll('.res-tab-content').forEach(c => c.style.display = c.dataset.resTab === target ? 'block' : 'none'); }); });
         }
 
         function setupCollapsible() {
-            document.getElementById('envHeader').addEventListener('click', function() {
-                this.classList.toggle('collapsed');
-                document.getElementById('envContent').classList.toggle('collapsed');
-            });
-
-            document.getElementById('histHeader').addEventListener('click', function() {
-                this.classList.toggle('collapsed');
-                document.getElementById('histContent').classList.toggle('collapsed');
-            });
+            document.getElementById('envHeader').addEventListener('click', function() { this.classList.toggle('collapsed'); document.getElementById('envContent').classList.toggle('collapsed'); });
+            document.getElementById('histHeader').addEventListener('click', function() { this.classList.toggle('collapsed'); document.getElementById('histContent').classList.toggle('collapsed'); });
         }
 
-        function createKvRow(container) {
-            const row = document.createElement('div');
-            row.className = 'kv-row';
-            row.innerHTML = '<input type="text" placeholder="Key">' +
-                '<input type="text" placeholder="Value">' +
-                '<button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>';
-
+        function createKvRow(container, key = '', value = '') {
+            const row = document.createElement('div'); row.className = 'kv-row';
+            row.innerHTML = `<input type="text" placeholder="Key" value="${escapeHtml(key)}"><input type="text" placeholder="Value" value="${escapeHtml(value)}"><button class="btn-icon" title="Remove"><i class="fas fa-times"></i></button>`;
             const removeBtn = row.querySelector('.btn-icon');
-            removeBtn.addEventListener('click', function() {
-                row.remove();
-                if (container.children.length === 0) {
-                    createKvRow(container);
-                }
-            });
-
+            removeBtn.addEventListener('click', () => { row.remove(); if (container.children.length === 0) createKvRow(container); });
             container.appendChild(row);
         }
 
-        function renderParamsRows() {
-            paramsRows.innerHTML = '';
-            createKvRow(paramsRows);
-        }
-
-        function renderHeadersRows() {
-            headersRows.innerHTML = '';
-            createKvRow(headersRows);
-        }
+        function renderParamsRows() { paramsRows.innerHTML = ''; createKvRow(paramsRows); }
+        function renderHeadersRows() { headersRows.innerHTML = ''; createKvRow(headersRows); }
 
         function renderAuthFields() {
-            const type = authTypeSelect.value;
-            authFields.innerHTML = '';
-
-            if (type === 'none') return;
-
-            if (type === 'bearer') {
-                authFields.innerHTML = '<div class="field-group">' +
-                    '<label class="field-label">Token</label>' +
-                    '<input type="text" class="field-input" id="bearerToken" placeholder="your-token-here">' +
-                    '</div>';
-            } else if (type === 'basic') {
-                authFields.innerHTML = '<div class="field-group">' +
-                    '<label class="field-label">Username</label>' +
-                    '<input type="text" class="field-input" id="basicUsername" placeholder="username">' +
-                    '</div>' +
-                    '<div class="field-group">' +
-                    '<label class="field-label">Password</label>' +
-                    '<input type="password" class="field-input" id="basicPassword" placeholder="password">' +
-                    '</div>';
-            } else if (type === 'apikey') {
-                authFields.innerHTML = '<div class="field-group">' +
-                    '<label class="field-label">Key Name</label>' +
-                    '<input type="text" class="field-input" id="apiKeyName" placeholder="X-API-Key">' +
-                    '</div>' +
-                    '<div class="field-group">' +
-                    '<label class="field-label">Key Value</label>' +
-                    '<input type="text" class="field-input" id="apiKeyValue" placeholder="your-api-key">' +
-                    '</div>' +
-                    '<div class="field-group">' +
-                    '<label class="field-label">Location</label>' +
-                    '<select class="location-select" id="apiKeyLocation">' +
-                    '<option value="header">Header</option>' +
-                    '<option value="query">Query Param</option>' +
-                    '</select>' +
-                    '</div>';
-            }
+            const type = authTypeSelect.value; authFields.innerHTML = ''; if (type === 'none') return;
+            if (type === 'bearer') authFields.innerHTML = `<div class="field-group"><label class="field-label">Token</label><input type="text" class="field-input" id="bearerToken" placeholder="your-token-here"></div>`;
+            else if (type === 'basic') authFields.innerHTML = `<div class="field-group"><label class="field-label">Username</label><input type="text" class="field-input" id="basicUsername" placeholder="username"></div><div class="field-group"><label class="field-label">Password</label><input type="password" class="field-input" id="basicPassword" placeholder="password"></div>`;
+            else if (type === 'apikey') authFields.innerHTML = `<div class="field-group"><label class="field-label">Key Name</label><input type="text" class="field-input" id="apiKeyName" placeholder="X-API-Key"></div><div class="field-group"><label class="field-label">Key Value</label><input type="text" class="field-input" id="apiKeyValue" placeholder="your-api-key"></div><div class="field-group"><label class="field-label">Location</label><select class="location-select" id="apiKeyLocation"><option value="header">Header</option><option value="query">Query Param</option></select></div>`;
         }
 
         function renderBodyContent() {
-            const type = bodyTypeSelect.value;
-            bodyContent.innerHTML = '';
-
-            if (type === 'none') {
-                bodyContent.innerHTML = '<div class="empty-state" style="min-height: 200px;"><i class="fas fa-ban"></i><h3>No Body</h3></div>';
-            } else if (type === 'json') {
-                bodyContent.innerHTML = '<button class="btn-format" id="formatJsonBtn"><i class="fas fa-align-left"></i> Format JSON</button>' +
-                    '<textarea class="body-textarea" id="jsonBody" placeholder='{"key": "value"}'></textarea>';
-                document.getElementById('formatJsonBtn').addEventListener('click', formatJsonBody);
-            } else if (type === 'form') {
-                const container = document.createElement('div');
-                container.id = 'formRows';
-                bodyContent.appendChild(container);
-                const addBtn = document.createElement('button');
-                addBtn.className = 'btn-add';
-                addBtn.innerHTML = '<i class="fas fa-plus"></i> Add Field';
-                addBtn.addEventListener('click', function() { createKvRow(container); });
-                bodyContent.appendChild(addBtn);
-                createKvRow(container);
-            } else if (type === 'raw') {
-                bodyContent.innerHTML = '<textarea class="body-textarea" id="rawBody" placeholder="Raw body content..."></textarea>';
-            }
+            const type = bodyTypeSelect.value; bodyContent.innerHTML = '';
+            if (type === 'none') bodyContent.innerHTML = '<div class="empty-state" style="min-height: 200px;"><i class="fas fa-ban"></i><h3>No Body</h3></div>';
+            else if (type === 'json') { bodyContent.innerHTML = `<button class="btn-format" id="formatJsonBtn"><i class="fas fa-align-left"></i> Format JSON</button><textarea class="body-textarea" id="jsonBody" placeholder='{"key": "value"}'></textarea>`; document.getElementById('formatJsonBtn').addEventListener('click', formatJsonBody); }
+            else if (type === 'form') { const container = document.createElement('div'); container.id = 'formRows'; bodyContent.appendChild(container); const addBtn = document.createElement('button'); addBtn.className = 'btn-add'; addBtn.innerHTML = '<i class="fas fa-plus"></i> Add Field'; addBtn.addEventListener('click', () => createKvRow(container)); bodyContent.appendChild(addBtn); createKvRow(container); }
+            else if (type === 'raw') bodyContent.innerHTML = `<textarea class="body-textarea" id="rawBody" placeholder="Raw body content..."></textarea>`;
         }
 
-        function formatJsonBody() {
-            const textarea = document.getElementById('jsonBody');
-            if (!textarea) return;
-            try {
-                const obj = JSON.parse(textarea.value);
-                textarea.value = JSON.stringify(obj, null, 2);
-                showToast('JSON formatted', 'success');
-            } catch (e) {
-                showToast('Invalid JSON', 'error');
-            }
-        }
-
-        function loadMethodColor() {
-            const method = methodSelect.value.toLowerCase();
-            const colors = {
-                get: '#3FB950', post: '#F0883E', put: '#00D9FF',
-                patch: '#A371F7', delete: '#F85149',
-                head: '#8B949E', options: '#58A6FF'
-            };
-            methodSelect.style.color = colors[method] || '#E6EDF3';
-        }
+        function formatJsonBody() { const textarea = document.getElementById('jsonBody'); if (!textarea) return; try { textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2); showToast('JSON formatted', 'success'); } catch { showToast('Invalid JSON', 'error'); } }
+        function loadMethodColor() { methodSelect.style.color = `var(--method-${methodSelect.value.toLowerCase()})`; }
 
         function setupEventListeners() {
-            setupTabs();
-            setupCollapsible();
-
+            setupTabs(); setupCollapsible();
             sendBtn.addEventListener('click', sendRequest);
-
             methodSelect.addEventListener('change', loadMethodColor);
-
-            document.getElementById('addEnvBtn').addEventListener('click', function() { addEnvRow('', ''); });
-
-            document.getElementById('addParamBtn').addEventListener('click', function() {
-                createKvRow(paramsRows);
-            });
-
-            document.getElementById('addHeaderBtn').addEventListener('click', function() {
-                createKvRow(headersRows);
-            });
-
+            document.getElementById('addEnvBtn').addEventListener('click', () => addEnvRow());
+            document.getElementById('addParamBtn').addEventListener('click', () => createKvRow(paramsRows));
+            document.getElementById('addHeaderBtn').addEventListener('click', () => createKvRow(headersRows));
             authTypeSelect.addEventListener('change', renderAuthFields);
-
             bodyTypeSelect.addEventListener('change', renderBodyContent);
-
-            document.getElementById('tryExampleBtn').addEventListener('click', function() {
-                urlInput.value = 'https://jsonplaceholder.typicode.com/posts/1';
-                methodSelect.value = 'GET';
-                loadMethodColor();
-                sendRequest();
-            });
-
-            document.getElementById('saveRequestBtn').addEventListener('click', function() {
-                const method = methodSelect.value;
-                const url = urlInput.value.trim();
-                if (!url) {
-                    showToast('Enter a URL to save', 'error');
-                    return;
-                }
-                addToHistory(method, url, 'Saved', null);
-                showToast('Request saved to history', 'success');
-            });
-
+            document.getElementById('tryExampleBtn').addEventListener('click', () => { urlInput.value = 'https://jsonplaceholder.typicode.com/posts/1'; methodSelect.value = 'GET'; loadMethodColor(); sendRequest(); });
+            document.getElementById('saveRequestBtn').addEventListener('click', () => { if (!urlInput.value.trim()) { showToast('Enter a URL to save', 'error'); return; } addToHistory(methodSelect.value, urlInput.value.trim(), '-', 0); showToast('Request saved to history', 'success'); });
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-
-            document.getElementById('copyResponseBtn').addEventListener('click', function() {
-                if (!currentRawResponse) {
-                    showToast('No response to copy', 'error');
-                    return;
-                }
-                navigator.clipboard.writeText(currentRawResponse).then(function() {
-                    showToast('Response copied to clipboard', 'success');
-                }).catch(function() {
-                    showToast('Failed to copy', 'error');
-                });
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                    if (e.target.tagName !== 'TEXTAREA') {
-                        sendRequest();
-                    }
-                }
-            });
+            document.getElementById('copyResponseBtn').addEventListener('click', () => { if (!currentRawResponse) { showToast('No response to copy', 'error'); return; } navigator.clipboard.writeText(currentRawResponse).then(() => showToast('Response copied', 'success')).catch(() => showToast('Failed to copy', 'error')); });
+            document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') sendRequest(); });
         }
 
         init();
